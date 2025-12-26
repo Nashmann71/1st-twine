@@ -70,7 +70,7 @@ Then you hear it. A voice. High-pitched, impossibly enthusiastic, and getting cl
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -108,7 +108,7 @@ Then you hear it. A voice. High-pitched, impossibly enthusiastic, and getting cl
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -138,7 +138,7 @@ Then you hear it. A voice. High-pitched, impossibly enthusiastic, and getting cl
         You crash through the exit grate and land in a messy heap on the floor below.
         [[Groggily Stand Up-&gt;Act 2: Security Hub]]
     ]
-]</tw-passagedata><tw-passagedata pid="5" name="Act 2: Dock Bluff" tags="" position="862.5,1050" size="100,100">\:: Act 2: Dock Bluff
+]</tw-passagedata><tw-passagedata pid="5" name="Act 2: Dock Bluff" tags="" position="875,1175" size="100,100">\:: Act 2: Dock Bluff
 ### THE BOLD STRATEGY
 
 You straighten your soot-stained clothes, grab a nearby empty crate, and walk directly toward the two Steam-Gnomes guarding the massive bay doors.
@@ -169,9 +169,11 @@ They level their steam-rifles at your chest.
           &quot;Logistics is a mess today,&quot; the guard sighs, lowering his rifle.
           &quot;Fine, move through. But keep your head down—the General is in a foul mood.&quot;
           
-          **Current Status:** $CurrentHP / $MaxHP HP
+&lt;br&gt;
+**Current Status:** $CurrentHP / $MaxHP HP
 
-          [[Enter the Factory Floor-&gt;Act 3: The Factory Floor]]
+
+[[Enter the Factory Floor-&gt;Act 3: The Factory Floor]]
       ](else:)[
           ### THE BLUFF FAILS
           &quot;Logistics?&quot; the guard sneers. &quot;We haven&#39;t had a logistics shipment in four hours. You look like a saboteur to me!&quot;
@@ -196,28 +198,31 @@ They level their steam-rifles at your chest.
   ]
 }</tw-passagedata><tw-passagedata pid="6" name="Act 2: Drone Destroyed" tags="" position="400,1675" size="100,100">With a final spark and a sound like a dying modem, the drone crumples. It falls to the vent floor, its red eye flickering out. You quickly grab it before it can roll down and make a noise.
 
+
+{
 (set: $MagicRoll to (random: 1, 2))
 (if: $MagicRoll is 1 and $ChristmasMagic &lt; 3)[
-    (set: $ChristmasMagic to it + 1)
+    (set: $ChristmasMagic to $ChristmasMagic + 1)
     (set: $PlayerAC to $BasePlayerAC + $ChristmasMagic)
+    
     (if: $ChristmasMagic is 1)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC SURGE!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC SURGE!** ✨]
         (text-colour:&quot;gold&quot;)[A warm glow spreads through your chest. The Spirit of Christmas recognizes your courage!]
         (text-colour:&quot;gold&quot;)[**+1 to hit, +2 damage, +1 AC, +1 to skill checks!** (Stack 1/3)]
     ]
     (if: $ChristmasMagic is 2)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC INTENSIFIES!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC INTENSIFIES!** ✨]
         (text-colour:&quot;gold&quot;)[The magic grows stronger! Snowflakes seem to dance around your weapon!]
         (text-colour:&quot;gold&quot;)[**+2 to hit, +4 damage, +2 AC, +2 to skill checks!** (Stack 2/3)]
     ]
     (if: $ChristmasMagic is 3)[
-        (text-colour:&quot;gold&quot;)✨ [**MAXIMUM CHRISTMAS MAGIC!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **MAXIMUM CHRISTMAS MAGIC!** ✨]
         (text-colour:&quot;gold&quot;)[You&#39;re RADIANT with Christmas spirit! Even General Grime will feel THIS!]
         (text-colour:&quot;gold&quot;)[**+3 to hit, +6 damage, +3 AC, +3 to skill checks!** (Stack 3/3 - MAX!)]
     ]
     ---
 ]
-
+}
 &quot;Nice work,&quot; Santa&#39;s voice crackles over your earpiece. &quot;I&#39;m at the gate. I&#39;ve got three guards busy with a &#39;Very Suspicious Snowman&#39; I built. Get to the Security Hub and open the side door!&quot;
 
 You reach the end of the vent. Below you is a grate looking down into the Security Hub.
@@ -232,37 +237,27 @@ The drone&#39;s lens glows a menacing &quot;Cyber-Coal&quot; red.
   (set: $Drone_HP to 8)
   (set: $Drone_AC to 12)
   (set: $Drone_Atk to 3)
-
   (set: $D_Init to (random: 1, 20) + 2)
 }
 
-{
-  (link: &quot;&gt;&gt; ROLL INITIATIVE &lt;&lt;&quot;)[
-      (set: $P_Init to (number: (prompt: &quot;Quick! Roll Initiative (d20 + Init Mod):&quot;, &quot;0&quot;)))
-
-      **Your Init:** $P_Init | **Drone Init:** $D_Init
-      &lt;br&gt;&lt;br&gt;
-
-      (if: $P_Init &gt; $D_Init)[
-          (text-colour: &quot;lime&quot;)[&gt;&gt; **You&#39;re faster! Smash it before it pings the hive!** &lt;&lt;]
-          [[Start Combat-&gt;Drone Turn: Player Attack]]
-      ]
-      (if: $P_Init &lt; $D_Init)[
-          (text-colour: &quot;red&quot;)[&gt;&gt; **The drone zips forward, laser charging!** &lt;&lt;]
-          [[Start Combat-&gt;Drone Turn: Drone Attack]]
-      ]
-      (if: $P_Init is $D_Init)[
-          (set: $TieBreaker to (random: 1, 2))
-          (if: $TieBreaker is 1)[
-              (text-colour: &quot;lime&quot;)[&gt;&gt; **A tie! Your reflexes edge out the machine!** &lt;&lt;]
-              [[Start Combat-&gt;Drone Turn: Player Attack]]
-          ](else:)[
-              (text-colour: &quot;red&quot;)[&gt;&gt; **A tie! The drone&#39;s sensors lock on first!** &lt;&lt;]
-              [[Start Combat-&gt;Drone Turn: Drone Attack]]
-          ]
-      ]
-  ]
-}</tw-passagedata><tw-passagedata pid="8" name="Act 2: Gate Battle" tags="" position="612.5,1050" size="100,100">### THE FRONT GATE BRAWL
+(link: &quot;&gt;&gt; ROLL INITIATIVE &lt;&lt;&quot;)[
+    (set: $P_Init to (number: (prompt: &quot;Quick! Roll Initiative (d20 + Init Mod):&quot;, &quot;0&quot;)))
+    
+    (if: $P_Init &gt; $D_Init)[
+        (goto: &quot;Drone Turn: Player Attack&quot;)
+    ]
+    (if: $P_Init &lt; $D_Init)[
+        (goto: &quot;Drone Turn: Drone Attack&quot;)
+    ]
+    (if: $P_Init is $D_Init)[
+        (set: $TieBreaker to (random: 1, 2))
+        (if: $TieBreaker is 1)[
+            (goto: &quot;Drone Turn: Player Attack&quot;)
+        ](else:)[
+            (goto: &quot;Drone Turn: Drone Attack&quot;)
+        ]
+    ]
+]</tw-passagedata><tw-passagedata pid="8" name="Act 2: Gate Battle" tags="" position="612.5,1050" size="100,100">### THE FRONT GATE BRAWL
 
 &quot;Ho-Ho-Holy cow, they&#39;ve got reinforcements!&quot; Santa yells, ducking behind a &quot;Tactical Sled&quot; as red laser beams zip over his head.
 
@@ -305,30 +300,31 @@ You notice an abandoned guard booth nearby. The door is ajar, and it looks quiet
 
 **What do you do?**
 * [[Rest in the guard booth-&gt;Rest: Guard Booth]]
-* [[Press on immediately-&gt;Act 2: Security Hub]]</tw-passagedata><tw-passagedata pid="10" name="Act 2: Hub Success" tags="" position="362.5,2050" size="100,100">### INSIDE THE BEAST
-
+* [[Press on immediately-&gt;Act 2: Security Hub]]</tw-passagedata><tw-passagedata pid="10" name="Act 2: Hub Success" tags="" position="375,2050" size="100,100">### INSIDE THE BEAST
+{
 (set: $MagicRoll to (random: 1, 2))
 (if: $MagicRoll is 1 and $ChristmasMagic &lt; 3)[
-    (set: $ChristmasMagic to it + 1)
+    (set: $ChristmasMagic to $ChristmasMagic + 1)
     (set: $PlayerAC to $BasePlayerAC + $ChristmasMagic)
+    
     (if: $ChristmasMagic is 1)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC SURGE!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC SURGE!** ✨]
         (text-colour:&quot;gold&quot;)[A warm glow spreads through your chest. The Spirit of Christmas recognizes your courage!]
         (text-colour:&quot;gold&quot;)[**+1 to hit, +2 damage, +1 AC, +1 to skill checks!** (Stack 1/3)]
     ]
     (if: $ChristmasMagic is 2)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC INTENSIFIES!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC INTENSIFIES!** ✨]
         (text-colour:&quot;gold&quot;)[The magic grows stronger! Snowflakes seem to dance around your weapon!]
         (text-colour:&quot;gold&quot;)[**+2 to hit, +4 damage, +2 AC, +2 to skill checks!** (Stack 2/3)]
     ]
     (if: $ChristmasMagic is 3)[
-        (text-colour:&quot;gold&quot;)✨ [**MAXIMUM CHRISTMAS MAGIC!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **MAXIMUM CHRISTMAS MAGIC!** ✨]
         (text-colour:&quot;gold&quot;)[You&#39;re RADIANT with Christmas spirit! Even General Grime will feel THIS!]
         (text-colour:&quot;gold&quot;)[**+3 to hit, +6 damage, +3 AC, +3 to skill checks!** (Stack 3/3 - MAX!)]
     ]
     ---
 ]
-
+}
 The heavy blast doors hiss open. Santa bursts in, checking his candy-cane shotgun. &quot;Great job, kid! We&#39;re inside the main wing. But the Spirit Core is deep in the basement, and the only way down is through the **Assembly Hub**.&quot;
 
 Looking through the internal windows, you see miles of conveyor belts churning out &quot;Efficiency Toys&quot;—gray, joyless blocks that smell like cardboard.
@@ -356,7 +352,8 @@ The fortress walls are fifty feet high and made of reinforced concrete that smel
    * [[Squeeze into the ducts (Stealth Path)-&gt;Act 2: Vent Crawl]]
 
 3. **The Loading Dock**: &quot;I&#39;ll trick them into thinking I&#39;m a delivery driver with a load of &#39;Emergency Coal&#39;.&quot;
-   * [[Flash a fake ID (Deception Path)-&gt;Act 2: Dock Bluff]]</tw-passagedata><tw-passagedata pid="12" name="Act 2: Security Hub" tags="" position="487.5,1800" size="100,100">### THE NERVE CENTER
+   * [[Flash a fake ID (Deception Path)-&gt;Act 2: Dock Bluff]]</tw-passagedata><tw-passagedata pid="12" name="Act 2: Security Hub" tags="" position="475,1800" size="100,100">:: Act 2: Security Hub
+### THE NERVE CENTER
 
 &lt;img src=&quot;https://github.com/Nashmann71/1st-twine/raw/main/images/SecurityHub.png&quot; width=&quot;500&quot;&gt;
 
@@ -364,8 +361,10 @@ You slip into a room filled with glowing monitors. A Head Gnome sits in a swivel
 
 {
   (set: $HG_Name to &quot;Head Gnome&quot;)
-  (set: $HG_HP to 25)      (set: $HG_MaxHP to 25)
-  (set: $HG_AC to 14)      (set: $HG_Backup to false)
+  (set: $HG_HP to 25)
+  (set: $HG_MaxHP to 25)
+  (set: $HG_AC to 14)
+  (set: $HG_Backup to false)
   (set: $HG_RoundCount to 0)
   (set: $HG2_HP to 0)
 
@@ -390,7 +389,7 @@ You slip into a room filled with glowing monitors. A Head Gnome sits in a swivel
 
 **What is your move?**
 [[Sneak up and hack the terminal-&gt;Hub: Hack]]
-[[Initiate a &quot;Belly-Flop&quot; Takedown-&gt;Hub: Attack]]
+[[Initiate a &quot;Belly-Flop&quot; Takedown-&gt;Hub: Target Selection]]
 [[Try to bluff: &quot;I&#39;m here for the glitter-cleanup!&quot;-&gt;Hub: Bluff]]</tw-passagedata><tw-passagedata pid="13" name="Act 2: The Junction" tags="" position="612.5,1300" size="100,100">You reach a T-junction in the pipes.To the left, you see the glow of the **Security Hub**, where the gnomes monitor the cameras. To the right, the path leads toward the **Main Assembly Line** where the toys—and weapons—are built.
 
 Suddenly, the vent floor beneath you starts to feel... warm. Very warm.
@@ -431,11 +430,11 @@ You scramble forward on all fours, your elbows banging against the cold metal. U
 
 2. **The Human Cannonball**: Just tuck your arms in and hope for the best.
    * [[Roll Constitution (Athletics)-&gt;Act 2: Dash Con Check]]</tw-passagedata><tw-passagedata pid="16" name="Act 2: Vent Fan Check" tags="" position="625,1175" size="100,100">(set: $RawRoll to (number: (prompt: &quot;Roll a D20 + Acrobatics Modifier (DC 14):&quot;, &quot;0&quot;)))
-(set: $CheckRoll to $RawRoll)  // ← ADD THIS LINE
+(set: $CheckRoll to $RawRoll)
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -464,7 +463,7 @@ You scramble forward on all fours, your elbows banging against the cold metal. U
 
         [[Scramble away quickly!-&gt;Act 2: The Junction]]
     ]
-]</tw-passagedata><tw-passagedata pid="17" name="Act 2: Vent Search" tags="" position="850,1175" size="100,100">(set: $RawRoll to (number: (prompt: &quot;Roll a D20 + Investigation Modifier (DC 13):&quot;, &quot;0&quot;)))
+]</tw-passagedata><tw-passagedata pid="17" name="Act 2: Vent Search" tags="" position="875,1050" size="100,100">(set: $RawRoll to (number: (prompt: &quot;Roll a D20 + Investigation Modifier (DC 13):&quot;, &quot;0&quot;)))
 (set: $CheckRoll to $RawRoll)
 
 (if: $ChristmasMagic &gt; 0)[
@@ -503,7 +502,7 @@ You scramble forward on all fours, your elbows banging against the cold metal. U
     **Current HP:** $CurrentHP / $MaxHP
 
     [[Scramble toward the Junction-&gt;Act 2: The Junction]]
-]</tw-passagedata><tw-passagedata pid="18" name="Act 2: Vent Strength Check" tags="" position="737.5,1175" size="100,100">:: Act 2: Vent Strength Check
+]</tw-passagedata><tw-passagedata pid="18" name="Act 2: Vent Strength Check" tags="" position="750,1175" size="100,100">:: Act 2: Vent Strength Check
 (set: $RawRoll to (number: (prompt: &quot;Roll Athletics (d20 + Mod) vs DC 14:&quot;, &quot;0&quot;)))
 (set: $CheckRoll to $RawRoll)
 
@@ -552,7 +551,7 @@ You bolt out the back door as three Efficiency Gnomes in heavy riot gear (made o
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 13)[
@@ -567,7 +566,7 @@ You bolt out the back door as three Efficiency Gnomes in heavy riot gear (made o
 
     (set: $G1_HP to 10)
     [[Fight the Riot Gnomes!-&gt;Act 3: Factory Fight]]
-]</tw-passagedata><tw-passagedata pid="21" name="Act 3: Break Room Intimidation" tags="" position="737.5,2425" size="100,100">### &quot;TALK, OR BE TERMINATED!&quot;
+]</tw-passagedata><tw-passagedata pid="21" name="Act 3: Break Room Intimidation" tags="" position="725,2400" size="100,100">### &quot;TALK, OR BE TERMINATED!&quot;
 
 You slam your hand down on the Gnomes&#39; table, senting their sawdust-biscuits flying. &quot;I don&#39;t have time for a union meeting! Tell me how to get to the basement archives right now, or I&#39;ll report this entire lounge for &#39;Unauthorized Joyfulness&#39;!&quot;
 (set: $RawRoll to (number: (prompt: &quot;Roll Intimidation (d20 + Mod) vs DC 14:&quot;, &quot;0&quot;)))
@@ -575,7 +574,7 @@ You slam your hand down on the Gnomes&#39; table, senting their sawdust-biscuits
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -603,7 +602,7 @@ You slam your hand down on the Gnomes&#39; table, senting their sawdust-biscuits
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 13)[
@@ -633,7 +632,7 @@ You hunch your shoulders and try to look as confused as possible.
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -680,20 +679,28 @@ The alarms blare with a sound like a thousand kazoos! &quot;COMPLIANCE IS MANDAT
       &lt;br&gt;&lt;br&gt;
 
       (if: $P_Init &gt; $E_Init)[
-          (text-colour: &quot;lime&quot;)[&gt;&gt; **You&#39;re faster! Smash them before they can file a report!** &lt;&lt;]
+          (text-colour: &quot;lime&quot;)[**You&#39;re faster! Smash them before they can file a report!**]
+          
+          &lt;br&gt;&lt;br&gt;
           [[Start Round 1-&gt;Factory: Target Selection]]
       ]
       (if: $P_Init &lt; $E_Init)[
-          (text-colour: &quot;red&quot;)[&gt;&gt; **The machines react instantly! They fire first!** &lt;&lt;]
+          (text-colour: &quot;red&quot;)**The machines react instantly! They fire first!**
+          
+          &lt;br&gt;&lt;br&gt;
           [[Start Round 1-&gt;Factory: Enemy Turn]]
       ]
       (if: $P_Init is $E_Init)[
           (set: $TieBreaker to (random: 1, 2))
           (if: $TieBreaker is 1)[
-              (text-colour: &quot;lime&quot;)[&gt;&gt; **A tie! But fortune favors the bold—you strike first!** &lt;&lt;]
+              (text-colour: &quot;lime&quot;)[**A tie! But fortune favors the bold—you strike first!**]
+              
+              &lt;br&gt;&lt;br&gt;
               [[Start Round 1-&gt;Factory: Target Selection]]
           ](else:)[
-              (text-colour: &quot;red&quot;)[&gt;&gt; **A tie! But the machines&#39; circuits are just a hair faster!** &lt;&lt;]
+              (text-colour: &quot;red&quot;)[**A tie! But the machines&#39; circuits are just a hair faster!**]
+              
+              &lt;br&gt;&lt;br&gt;
               [[Start Round 1-&gt;Factory: Enemy Turn]]
           ]
       ]
@@ -709,7 +716,7 @@ You puff out your chest, stomp your boot, and point a finger directly at the Ove
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 15)[
@@ -734,7 +741,7 @@ You puff out your chest, stomp your boot, and point a finger directly at the Ove
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -866,7 +873,7 @@ They haven&#39;t noticed you yet. This is your chance to start a revolution!
    * [[Give them the cookies-&gt;Act 3: Break Room Bribe]]
 
 3. **The Intimidator**: &quot;Tell me how to get to the basement, or I&#39;ll tell the Overseers you were taking an unscheduled three-minute break!&quot;
-   * [[Roll Charisma (Intimidation)-&gt;Act 3: Break Room Intimidation]]</tw-passagedata><tw-passagedata pid="31" name="Act 3: The Factory Floor" tags="" position="125,2075" size="100,100">### THE SAFETY INSPECTION
+   * [[Roll Charisma (Intimidation)-&gt;Act 3: Break Room Intimidation]]</tw-passagedata><tw-passagedata pid="31" name="Act 3: The Factory Floor" tags="" position="100,2200" size="100,100">### THE SAFETY INSPECTION
 
 You zip up a boring gray jumpsuit and grab a clipboard. You walk out onto the floor, trying to look as grumpy and bureaucratic as possible.
 
@@ -942,22 +949,25 @@ You clear a dusty table and unroll a massive, blueprint. It smells of ozone and 
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
+
 (if: $CheckRoll &gt;= 13)[
     ### **THE &quot;REINDEER&#39;S HEEL&quot;**
     Your eyes scan the complex piping. There! Just behind the left shoulder-plate is a **Thermal Exhaust Port**. It&#39;s designed to vent excess &quot;Boredom Smoke.&quot; If you can hit that spot, it will cause a chain reaction and stun the General!
 
     &quot;Incredible eye, kid!&quot; Santa says, sketching a quick diagram. &quot;If we get a clear shot at that port, we can shut his primary weapons down for a turn.&quot;
-    (set: $BossWeakness to true)
+{
+(set: $BossWeakness to true)
     (set: $SearchedBlueprints to true)
-
+}
     (text-colour:&quot;gold&quot;)[**🎁 REWARD: WEAKNESS DISCOVERED**]
     *In the final battle, you can target the Exhaust Port for bonus damage and a stun!*
 
     [[Continue Searching-&gt;Act 4: Hall of Records]]
 ]
+
 (if: $CheckRoll &lt; 13)[
     ### **COFFEE STAINED CHAOS**
     The blueprints are covered in what looks like spilled cocoa and &quot;Top Secret&quot; stamps. You try to wipe away the grime, but you accidentally trigger a **Pressure-Sensitive Weight** on the table.
@@ -973,17 +983,17 @@ You clear a dusty table and unroll a massive, blueprint. It smells of ozone and 
     (set: $ChristmasMagic to it + 1)
     (set: $PlayerAC to $BasePlayerAC + $ChristmasMagic)
     (if: $ChristmasMagic is 1)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC SURGE!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC SURGE!** ✨]
         (text-colour:&quot;gold&quot;)[A warm glow spreads through your chest. The Spirit of Christmas recognizes your courage!]
         (text-colour:&quot;gold&quot;)[**+1 to hit, +2 damage, +1 AC, +1 to skill checks!** (Stack 1/3)]
     ]
     (if: $ChristmasMagic is 2)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC INTENSIFIES!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC INTENSIFIES!** ✨]
         (text-colour:&quot;gold&quot;)[The magic grows stronger! Snowflakes seem to dance around your weapon!]
         (text-colour:&quot;gold&quot;)[**+2 to hit, +4 damage, +2 AC, +2 to skill checks!** (Stack 2/3)]
     ]
     (if: $ChristmasMagic is 3)[
-        (text-colour:&quot;gold&quot;)✨ [**MAXIMUM CHRISTMAS MAGIC!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **MAXIMUM CHRISTMAS MAGIC!** ✨]
         (text-colour:&quot;gold&quot;)[You&#39;re RADIANT with Christmas spirit! Even General Grime will feel THIS!]
         (text-colour:&quot;gold&quot;)[**+3 to hit, +6 damage, +3 AC, +3 to skill checks!** (Stack 3/3 - MAX!)]
     ]
@@ -1005,43 +1015,49 @@ You spot a dusty storage closet nearby—it looks like it hasn&#39;t been opened
 * [[Hide in the storage closet-&gt;Rest: Storage Closet]]
 * [[No time—descend immediately-&gt;Exit Archives: Choose Descent]]</tw-passagedata><tw-passagedata pid="36" name="Act 4: Hall of Records" tags="" position="300,2675" size="100,100">### THE ARCHIVES OF CHRISTMAS PAST
 
+
+{
 (set: $MagicRoll to (random: 1, 2))
 (if: $MagicRoll is 1 and $ChristmasMagic &lt; 3)[
-    (set: $ChristmasMagic to it + 1)
+    (set: $ChristmasMagic to $ChristmasMagic + 1)
     (set: $PlayerAC to $BasePlayerAC + $ChristmasMagic)
+    
     (if: $ChristmasMagic is 1)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC SURGE!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC SURGE!** ✨]
         (text-colour:&quot;gold&quot;)[A warm glow spreads through your chest. The Spirit of Christmas recognizes your courage!]
         (text-colour:&quot;gold&quot;)[**+1 to hit, +2 damage, +1 AC, +1 to skill checks!** (Stack 1/3)]
     ]
     (if: $ChristmasMagic is 2)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC INTENSIFIES!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC INTENSIFIES!** ✨]
         (text-colour:&quot;gold&quot;)[The magic grows stronger! Snowflakes seem to dance around your weapon!]
         (text-colour:&quot;gold&quot;)[**+2 to hit, +4 damage, +2 AC, +2 to skill checks!** (Stack 2/3)]
     ]
     (if: $ChristmasMagic is 3)[
-        (text-colour:&quot;gold&quot;)✨ [**MAXIMUM CHRISTMAS MAGIC!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **MAXIMUM CHRISTMAS MAGIC!** ✨]
         (text-colour:&quot;gold&quot;)[You&#39;re RADIANT with Christmas spirit! Even General Grime will feel THIS!]
         (text-colour:&quot;gold&quot;)[**+3 to hit, +6 damage, +3 AC, +3 to skill checks!** (Stack 3/3 - MAX!)]
     ]
     ---
 ]
-
+}
 The Hall is a cathedral of filing cabinets. Massive brass clocks on the walls tick in a slow, rhythmic *thump-thump* that sounds like a mechanical heart.
 
 &quot;The Spirit Core is just below us,&quot; Santa whispers, pointing to a heavy iron grate in the floor. &quot;But it&#39;s protected by a &#39;Logic Lock.&#39; We need the override codes or a map of the steam-pipes to get down there safely.&quot;
 
+{
 (if: $ArchiveSearches is 0)[
 &lt;em&gt;The archives seem quiet. Security patrols are minimal.&lt;/em&gt;
 ]
 (if: $ArchiveSearches is 1)[
-(text-colour:&quot;yellow&quot;)⚠️ *&quot;We shouldn&#39;t linger,&quot; Santa mutters. &quot;The longer we stay, the more likely we&#39;ll be spotted.&quot;*]
+(text-colour:&quot;yellow&quot;)[⚠️ *&quot;We shouldn&#39;t linger,&quot; Santa mutters. &quot;The longer we stay, the more likely we&#39;ll be spotted.&quot;*]
 ]
 (if: $ArchiveSearches &gt;= 2)[
-(text-colour:&quot;orange&quot;)⚠️⚠️ *&quot;Kid, we&#39;re pushing our luck,&quot; Santa warns, his hand on your shoulder. &quot;Security sweeps are getting more frequent. One more search and we&#39;re really rolling the dice.&quot;*]
+(text-colour:&quot;orange&quot;)[⚠️⚠️ *&quot;Kid, we&#39;re pushing our luck,&quot; Santa warns, his hand on your shoulder. &quot;Security sweeps are getting more frequent. One more search and we&#39;re really rolling the dice.&quot;*]
 ]
+}
 
 **What do you investigate?**
+
 
 (if: $SearchedBlueprints is not true)[
 1. **The Core Blueprints**: Look for a structural weakness in General Grime.
@@ -1065,7 +1081,8 @@ The Hall is a cathedral of filing cabinets. Massive brass clocks on the walls ti
 ]
 
 4. **&quot;We&#39;ve seen enough. Let&#39;s move!&quot;**
-   * [[Head for the basement-&gt;Act 4: Exit Archives]]</tw-passagedata><tw-passagedata pid="37" name="Act 4: Surveillance Check" tags="" position="425,2925" size="100,100">### HOLOGRAPHIC REPLAY
+   * [[Head for the basement-&gt;Act 4: Exit Archives]]
+</tw-passagedata><tw-passagedata pid="37" name="Act 4: Surveillance Check" tags="" position="425,2925" size="100,100">### HOLOGRAPHIC REPLAY
 
 You find the security terminal and insert a candy-cane-shaped thumb drive. A flickering blue hologram erupts into the center of the room. It shows the night of the invasion.
 (set: $RawRoll to (number: (prompt: &quot;Roll Wisdom (Perception) vs DC 13:&quot;, &quot;0&quot;)))
@@ -1073,7 +1090,7 @@ You find the security terminal and insert a candy-cane-shaped thumb drive. A fli
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -1087,7 +1104,7 @@ You find the security terminal and insert a candy-cane-shaped thumb drive. A fli
     (set: $ServiceTunnel to true)
     (set: $SearchedLogs to true)
 
-    (text-colour:&quot;gold&quot;)**🎁 REWARD: SERVICE TUNNEL FOUND**]
+    (text-colour:&quot;gold&quot;)[**🎁 REWARD: SERVICE TUNNEL FOUND**]
     *You can now take the Steam Pipes route to bypass the Cafeteria!*
 
     [[Continue Searching-&gt;Act 4: Hall of Records]]
@@ -1105,7 +1122,7 @@ You find the security terminal and insert a candy-cane-shaped thumb drive. A fli
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -1132,7 +1149,7 @@ You find the security terminal and insert a candy-cane-shaped thumb drive. A fli
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 13)[
@@ -1177,7 +1194,7 @@ You begin digging through the files of the North Pole staff.
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 15)[
@@ -1243,7 +1260,7 @@ You take a slow, heavy step toward the head table. You don&#39;t pull a weapon; 
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 16)[
@@ -1286,7 +1303,7 @@ You take a slow, heavy step toward the head table. You don&#39;t pull a weapon; 
   
   (if: $ChristmasMagic &gt; 0)[
       (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-      (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+      (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
       **Total:** $CheckRoll]
   ](else:)[
       You rolled a **$CheckRoll**.
@@ -1356,7 +1373,7 @@ You pull out the oil-stained letter and read it aloud. As the Gnomes hear Barnab
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -1383,71 +1400,12 @@ You pull out the oil-stained letter and read it aloud. As the Gnomes hear Barnab
     (if: $CurrentHP &lt;= 0)[(goto: &quot;Game Over: The Grey Christmas&quot;)](else:)[ [[Limp toward the Core-&gt;Act 6: The Spirit Core]] ]
 ]
 
-:: Act 5: Steam Dex Check
-  (set: $RawRoll to (number: (prompt: &quot;Roll Acrobatics (DC 14):&quot;, &quot;0&quot;)))
-  (set: $CheckRoll to $RawRoll)
-
-(if: $ChristmasMagic &gt; 0)[
-    (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
-    **Total:** $CheckRoll]
-](else:)[
-    You rolled a **$CheckRoll**.
-]
-
-(if: $CheckRoll &gt;= 14)[
-    ### **GHOST THROUGH THE MIST**
-    You move like a shadow, sliding under pipes and jumping over vents just as they hiss.
-    You reach the end of the line without breaking a sweat.
-
-    **BONUS:** You arrive at the Core totally undetected! (Alert Level -1).
-    (if: $AlertLevel &gt; 0)[(set: $AlertLevel to $AlertLevel - 1)]
-
-    [[Emerging at the Core-&gt;Act 6: The Spirit Core]]
-](else:)[
-    ### **SCALDED!**
-    You mistimed a jump! A blast of hot industrial steam catches you in the side.
-      (set: $CurrentHP to it - 5)
-    (text-colour:&quot;red&quot;)[**HISS!** The steam sears through your clothes. You take **5 Fire Damage**!]
-
-    (if: $CurrentHP &lt;= 0)[(goto: &quot;Game Over: The Grey Christmas&quot;)](else:)[ You scramble to the exit, coughing in the sweltering heat. [[Limp to the Core-&gt;Act 6: The Spirit Core]] ]
-]
-
-:: Act 5: Steam Int Check
-  (set: $RawRoll to (number: (prompt: &quot;Roll Intelligence (Investigation) vs DC 13:&quot;, &quot;0&quot;)))
-  (set: $CheckRoll to $RawRoll)
-
-(if: $ChristmasMagic &gt; 0)[
-    (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
-    **Total:** $CheckRoll]
-](else:)[
-    You rolled a **$CheckRoll**.
-]
-
-(if: $CheckRoll &gt;= 13)[
-    ### **THE PATTERN REVEALED**
-    You watch the steam vents for a moment. *Hiss... click... hiss... pause.*
-    It&#39;s not random. It&#39;s a sequence!
-
-    &quot;Left... wait two seconds... center... run!&quot;
-    You guide Santa through the pattern perfectly.
-
-    [[Emerge at the Core-&gt;Act 6: The Spirit Core]]
-](else:)[
-    ### **BAD TIMING**
-    You think you see a pattern, but you&#39;re wrong.
-    &quot;NOW!&quot; you shout, and run directly into a blast of super-heated vapor.
-      (set: $CurrentHP to it - 5)
-    (text-colour:&quot;red&quot;)[**WHOOSH!** You take **5 Fire Damage**!]
-
-    (if: $CurrentHP &lt;= 0)[(goto: &quot;Game Over: The Grey Christmas&quot;)](else:)[ [[Limp toward the Core-&gt;Act 6: The Spirit Core]] ]
-]</tw-passagedata><tw-passagedata pid="48" name="Act 5: Steam Dex Check" tags="" position="475,3925" size="100,100">(set: $RawRoll to (number: (prompt: &quot;Roll Acrobatics (DC 14):&quot;, &quot;0&quot;)))
+</tw-passagedata><tw-passagedata pid="48" name="Act 5: Steam Dex Check" tags="" position="475,3925" size="100,100">(set: $RawRoll to (number: (prompt: &quot;Roll Acrobatics (DC 14):&quot;, &quot;0&quot;)))
 (set: $CheckRoll to $RawRoll)
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 14)[
@@ -1464,7 +1422,7 @@ You pull out the oil-stained letter and read it aloud. As the Gnomes hear Barnab
     You mistimed a jump! A blast of hot industrial steam catches you in the side.
 
     (set: $CurrentHP to it - 5)
-    (text-colour:&quot;red&quot;)**HISS!** The steam sears through your clothes. You take **5 Fire Damage**!]
+    (text-colour:&quot;red&quot;)[**HISS!** The steam sears through your clothes. You take **5 Fire Damage**!]
 
     **Current HP:** $CurrentHP / $MaxHP
 
@@ -1480,7 +1438,7 @@ You pull out the oil-stained letter and read it aloud. As the Gnomes hear Barnab
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 13)[
@@ -1547,7 +1505,7 @@ The room is dim, lit only by a red emergency strobe. Above you, a massive hydrau
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 13)[
@@ -1576,7 +1534,7 @@ The room is dim, lit only by a red emergency strobe. Above you, a massive hydrau
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ](else:)[
     You rolled a **$CheckRoll**.
@@ -1610,7 +1568,7 @@ The room is dim, lit only by a red emergency strobe. Above you, a massive hydrau
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 12)[
@@ -1663,7 +1621,7 @@ Pete tugs your sleeve, his face serious for once. &quot;Hey. HEY. Before we do t
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 15)[
@@ -1680,10 +1638,10 @@ Pete tugs your sleeve, his face serious for once. &quot;Hey. HEY. Before we do t
     You cut the wrong wire! A blue spark jumps from the panel and zaps your fingers.
 
     (set: $CurrentHP to it - 5)
-    (text-colour:&quot;red&quot;)**ZAP!** Static discharge hits your nervous system. You take **5 Lightning Damage**!]
+    (text-colour:&quot;red&quot;)[**ZAP!** Static discharge hits your nervous system. You take **5 Lightning Damage**!]
 
     **Current HP:** $CurrentHP / $MaxHP
-
+]
     (if: $CurrentHP &lt;= 0)[
         (goto: &quot;Game Over: The Grey Christmas&quot;)
     ](else:)[
@@ -1691,12 +1649,12 @@ Pete tugs your sleeve, his face serious for once. &quot;Hey. HEY. Before we do t
 
         [[Rush inside!-&gt;Act 6: Boss Intro]]
     ]
-]</tw-passagedata><tw-passagedata pid="57" name="Act 6: Logic Insight" tags="" position="225,3925" size="100,100">(set: $RawRoll to (number: (prompt: &quot;Roll Insight (d20 + Mod) vs DC 13:&quot;, &quot;0&quot;)))
+</tw-passagedata><tw-passagedata pid="57" name="Act 6: Logic Insight" tags="" position="225,3925" size="100,100">(set: $RawRoll to (number: (prompt: &quot;Roll Insight (d20 + Mod) vs DC 13:&quot;, &quot;0&quot;)))
 (set: $CheckRoll to $RawRoll)
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 13)[
@@ -1714,10 +1672,10 @@ Pete tugs your sleeve, his face serious for once. &quot;Hey. HEY. Before we do t
     You hesitate. The machine&#39;s cold logic starts to make sense to you. The lock jams, and a defensive turret fires a warning shot!
 
     (set: $CurrentHP to it - 4)
-    (text-colour:&quot;red&quot;)**BANG!** The turret grazes you. You take **4 damage**!]
+    (text-colour:&quot;red&quot;)[**BANG!** The turret grazes you. You take **4 damage**!]
 
     **Current HP:** $CurrentHP / $MaxHP
-
+]
     (if: $CurrentHP &lt;= 0)[
         (goto: &quot;Game Over: The Grey Christmas&quot;)
     ](else:)[
@@ -1725,55 +1683,57 @@ Pete tugs your sleeve, his face serious for once. &quot;Hey. HEY. Before we do t
 
         [[Move forward-&gt;Act 6: Boss Intro]]
     ]
-]</tw-passagedata><tw-passagedata pid="58" name="Act 6: Logic Smash" tags="" position="350,3925" size="100,100">(set: $RawRoll to (number: (prompt: &quot;Roll Strength (d20 + Mod) vs DC 17:&quot;, &quot;0&quot;)))
+</tw-passagedata><tw-passagedata pid="58" name="Act 6: Logic Smash" tags="" position="350,3925" size="100,100">(set: $RawRoll to (number: (prompt: &quot;Roll Strength (d20 + Mod) vs DC 17:&quot;, &quot;0&quot;)))
 (set: $CheckRoll to $RawRoll)
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
+
 (if: $CheckRoll &gt;= 17)[
     ### **BRUTE FORCE**
     &quot;I don&#39;t have time for riddles!&quot; You hammer your fist (or weapon) into the center of the display. The glass shatters, and the locking pins shear off under the sheer force of your strike. The door swings open, dented and broken.
-
+    
     **EFFECT:** You&#39;ve made a loud entrance. General Grime is already facing you when you enter.
-
+    
     **Current HP:** $CurrentHP / $MaxHP
-
+    
     [[Storm the chamber-&gt;Act 6: Boss Intro]]
 ](else:)[
     ### **REINFORCED STEEL**
     You hit the door, but it&#39;s like hitting a mountain. Your arm throbs with pain, and the door stays shut. You have to spend minutes prying it open with a crowbar while the guards close in.
-
+    
     (set: $CurrentHP to it - 3)
-    (text-colour:&quot;red&quot;)**OUCH!** The impact rattles your bones. You take **3 damage**!]
-
+    (text-colour:&quot;red&quot;)[**OUCH!** The impact rattles your bones. You take **3 damage**!]
+    
     **Current HP:** $CurrentHP / $MaxHP
-
+    
     (if: $CurrentHP &lt;= 0)[
         (goto: &quot;Game Over: The Grey Christmas&quot;)
     ](else:)[
         [[Finally get inside-&gt;Act 6: Boss Intro]]
     ]
-]</tw-passagedata><tw-passagedata pid="59" name="Act 6: The Spirit Core" tags="" position="250,3675" size="100,100">### THE FINAL BARRIER
+]
+</tw-passagedata><tw-passagedata pid="59" name="Act 6: The Spirit Core" tags="" position="250,3675" size="100,100">### THE FINAL BARRIER
 
 (set: $MagicRoll to (random: 1, 2))
 (if: $MagicRoll is 1 and $ChristmasMagic &lt; 3)[
     (set: $ChristmasMagic to it + 1)
     (set: $PlayerAC to $BasePlayerAC + $ChristmasMagic)
     (if: $ChristmasMagic is 1)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC SURGE!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC SURGE!** ✨]
         (text-colour:&quot;gold&quot;)[A warm glow spreads through your chest. The Spirit of Christmas recognizes your courage!]
         (text-colour:&quot;gold&quot;)[**+1 to hit, +2 damage, +1 AC, +1 to skill checks!** (Stack 1/3)]
     ]
     (if: $ChristmasMagic is 2)[
-        (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC INTENSIFIES!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC INTENSIFIES!** ✨]
         (text-colour:&quot;gold&quot;)[The magic grows stronger! Snowflakes seem to dance around your weapon!]
         (text-colour:&quot;gold&quot;)[**+2 to hit, +4 damage, +2 AC, +2 to skill checks!** (Stack 2/3)]
     ]
     (if: $ChristmasMagic is 3)[
-        (text-colour:&quot;gold&quot;)✨ [**MAXIMUM CHRISTMAS MAGIC!** ✨]
+        (text-colour:&quot;gold&quot;)[✨ **MAXIMUM CHRISTMAS MAGIC!** ✨]
         (text-colour:&quot;gold&quot;)[You&#39;re RADIANT with Christmas spirit! Even General Grime will feel THIS!]
         (text-colour:&quot;gold&quot;)[**+3 to hit, +6 damage, +3 AC, +3 to skill checks!** (Stack 3/3 - MAX!)]
     ]
@@ -1799,7 +1759,7 @@ Santa whispers, &quot;The robots think it&#39;s about the **Gift** (materials) o
 3. **The Grinch Method**: If it doesn&#39;t open, smash it until it does.
    * [[Roll Strength (Athletics)-&gt;Act 6: Logic Smash]]</tw-passagedata><tw-passagedata pid="60" name="Act 7: The Final Battle" tags="" position="600,4125" size="100,100">### THE BATTLE FOR CHRISTMAS
 
-(if: $ChristmasMagic is 0)[
+(if: $ChristmasMagic is &lt;2)[
     Santa looks at you with concern. &quot;Kid... you&#39;re running on empty. Here.&quot; He reaches up and pulls off his iconic red hat—but this one is GLOWING with golden light.
 
     &quot;This hat has been in my family for three hundred years. It&#39;s infused with the concentrated Christmas spirit of every child who ever believed. Take it. You need it more than I do right now.&quot;
@@ -1807,7 +1767,7 @@ Santa whispers, &quot;The robots think it&#39;s about the **Gift** (materials) o
     (set: $ChristmasMagic to 2)
     (set: $PlayerAC to $BasePlayerAC + $ChristmasMagic)
 
-    (text-colour:&quot;gold&quot;)✨ [**SANTA&#39;S GIFT: THE ANCESTRAL HAT!** ✨]
+    (text-colour:&quot;gold&quot;)[✨ **SANTA&#39;S GIFT: THE ANCESTRAL HAT!** ✨]
     (text-colour:&quot;gold&quot;)[Pure Christmas magic floods through you! You feel INVINCIBLE!]
     (text-colour:&quot;gold&quot;)[**+2 to hit, +4 damage, +2 AC, +2 to skill checks!** (Stack 2/3)]
 
@@ -1815,17 +1775,17 @@ Santa whispers, &quot;The robots think it&#39;s about the **Gift** (materials) o
 
     ---
 ]
-
+{
 (set: $M1_Name to &quot;General Grime&quot;)
 (set: $M1_HP to 45)
 (set: $M2_Name to &quot;Siphon Drone A&quot;)
-(set: $M2_HP to 8)
+(set: $M2_HP to 10)
 (set: $M3_Name to &quot;Siphon Drone B&quot;)
-(set: $M3_HP to 8)
+(set: $M3_HP to 10)
 
 (set: $BossAC to 16)
 (set: $DroneAC to 13)
-
+}
 // Initiative Roll
 (set: $E_Init to (random: 1, 20) + 3)
 (set: $P_Init to (number: (prompt: &quot;Roll Final Initiative (d20 + Mod):&quot;, &quot;0&quot;)))
@@ -1849,7 +1809,8 @@ Santa whispers, &quot;The robots think it&#39;s about the **Gift** (materials) o
         &gt;&gt; **A tie! Grime&#39;s mechanical precision edges out by a microsecond!** &lt;&lt;
         [[The General fires first!-&gt;Final: Enemy Turn]]
     ]
-]</tw-passagedata><tw-passagedata pid="61" name="Archive: Damage Process" tags="" position="600,3175" size="100,100">{
+]
+</tw-passagedata><tw-passagedata pid="61" name="Archive: Damage Process" tags="" position="600,3175" size="100,100">{
   (set: $AtkRoll to (number: (prompt: &quot;Roll vs AC 14:&quot;, &quot;0&quot;)))
   (set: $FinalAtk to $AtkRoll + $ChristmasMagic)
   
@@ -1968,7 +1929,7 @@ The exit door is just past the biography section. You prepare to make a break fo
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $FleeRoll to $RawRoll + $ChristmasMagic)
-    (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $FleeRoll]
 ]
 (if: $FleeRoll &gt;= 12)[
@@ -1993,12 +1954,19 @@ You duck behind a towering shelf of ancient ledgers. Among the dusty tomes, you 
 
 **ACTION:**
 1. Roll your **Healing Dice** (Spell or Potion) on D&amp;D Beyond.
-2. Update your HP on your sheet.
-3. Mark off the item or spell slot!
+2. Mark off the item or spell slot!
 
 A book titled &quot;1001 Ways to File a Complaint&quot; falls on your head. *Ow.*
 
-[[Back to the battle!-&gt;Archive: Enemy Turn]]</tw-passagedata><tw-passagedata pid="65" name="Archive: Killing Blow" tags="" position="475,3300" size="100,100">### OVERDUE FOR A CHECKOUT
+{
+  (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERED HP &lt;&lt;&quot;)[
+    (set: $HealHP to (number: (prompt: &quot;Enter your Total RECOVERD HP:&quot;, &quot;1&quot;)))
+    (set: $CurrentHP to $CurrentHP + $HealHP)
+    (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
+
+[[Back to the battle!-&gt;Archive: Enemy Turn]]
+]
+}</tw-passagedata><tw-passagedata pid="65" name="Archive: Killing Blow" tags="" position="475,3300" size="100,100">### OVERDUE FOR A CHECKOUT
 
 The librarian gnomes overwhelm you with their relentless assault. You collapse between the towering shelves, ink-stained and battered.
 
@@ -2010,10 +1978,10 @@ Protector Beta pulls out a large rubber stamp and inks it menacingly. &quot;Fili
 **Protector Beta:** (if: $M2_HP &lt; 0)[0](else:)[$M2_HP] / 15 HP
 **Your Status:** $CurrentHP / $MaxHP HP
 
-[[The archives fall silent...-&gt;Game Over: The Grey Christmas]]</tw-passagedata><tw-passagedata pid="66" name="Archive: Scan Blueprints" tags="" position="200,2675" size="100,100">(set: $SearchTarget to &quot;blueprints&quot;)
+[[The archives fall silent...-&gt;Game Over: The Grey Christmas]]</tw-passagedata><tw-passagedata pid="66" name="Archive: Scan Blueprints" tags="" position="150,2725" size="100,100">(set: $SearchTarget to &quot;blueprints&quot;)
 (goto: &quot;Archive: Security Scan&quot;)</tw-passagedata><tw-passagedata pid="67" name="Archive: Scan Files" tags="" position="450,2800" size="100,100">(set: $SearchTarget to &quot;files&quot;)
 (goto: &quot;Archive: Security Scan&quot;)</tw-passagedata><tw-passagedata pid="68" name="Archive: Scan Logs" tags="" position="575,2825" size="100,100">(set: $SearchTarget to &quot;logs&quot;)
-(goto: &quot;Archive: Security Scan&quot;)</tw-passagedata><tw-passagedata pid="69" name="Archive: Security Scan" tags="" position="300,2750" size="100,100">### SLIPPING THROUGH THE STACKS
+(goto: &quot;Archive: Security Scan&quot;)</tw-passagedata><tw-passagedata pid="69" name="Archive: Security Scan" tags="" position="350,2825" size="100,100">### SLIPPING THROUGH THE STACKS
 
 (set: $ArchiveSearches to $ArchiveSearches + 1)
 
@@ -2067,37 +2035,37 @@ Dust motes swirl in the dim light. The brass clocks tick ominously.
     (set: $PeteDmg to (random: 1, 6) + 1)
     (set: $PeteHealAmt to (random: 1, 4))
     (set: $PeteFlail to (random: 1, 4))
-
+    
     &lt;br&gt;
     (if: $PeteRoll &lt;= 14)[
         (if: $M1_HP &gt; 0 and ($M1_HP &lt;= $M2_HP or $M2_HP &lt;= 0))[
             (if: $PeteAtk &gt;= 14)[
                 (set: $M1_HP to it - $PeteDmg)
-                (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** throws a heavy book at $M1_Name! &quot;KNOWLEDGE IS POWER!&quot; **HIT for $PeteDmg damage!**]
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** throws a heavy book at $M1_Name! &quot;KNOWLEDGE IS POWER!&quot; **HIT for $PeteDmg damage!**]
             ](else:)[
-                (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** swings an encyclopedia at $M1_Name! &quot;READ THIS!&quot; **MISS!**]
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** swings an encyclopedia at $M1_Name! &quot;READ THIS!&quot; **MISS!**]
             ]
         ](elseif: $M2_HP &gt; 0)[
             (if: $PeteAtk &gt;= 14)[
                 (set: $M2_HP to it - $PeteDmg)
-                (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** whacks $M2_Name with a filing cabinet drawer! &quot;THESE ARE ORGANIZED BY PAIN!&quot; **HIT for $PeteDmg damage!**]
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** whacks $M2_Name with a filing cabinet drawer! &quot;THESE ARE ORGANIZED BY PAIN!&quot; **HIT for $PeteDmg damage!**]
             ](else:)[
-                (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** lunges at $M2_Name! &quot;SHHHH!&quot; **MISS!**]
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** lunges at $M2_Name! &quot;SHHHH!&quot; **MISS!**]
             ]
         ]
     ]
-
+    
     (if: $PeteRoll &gt;= 15 and $PeteRoll &lt;= 17)[
         (set: $CurrentHP to it + $PeteHealAmt)
         (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
-        (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** finds an old lollipop bookmark! &quot;Five-second rule! EAT IT!&quot; **You recover $PeteHealAmt HP!**]
+        (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** finds an old lollipop bookmark! &quot;Five-second rule! EAT IT!&quot; **You recover $PeteHealAmt HP!**]
     ]
-
+    
     (if: $PeteRoll &gt;= 18)[
-        (if: $PeteFlail is 1)[(text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** starts reading a book mid-fight! &quot;Ooh, this is about DRAGONS! ...Oh wait, we&#39;re fighting. Sorry!&quot;]]
-        (if: $PeteFlail is 2)[(text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** knocks over a bookshelf! It falls the wrong way. &quot;Uh... that was SUPPOSED to happen!&quot;]]
-        (if: $PeteFlail is 3)[(text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** accidentally triggers the return slot! &quot;WHERE DID MY ARM GO?! Oh, there it is!&quot;]]
-        (if: $PeteFlail is 4)[(text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** shushes the enemies! &quot;SHHH! This is a LIBRARY! ...Oh, they don&#39;t care.&quot;]]
+        (if: $PeteFlail is 1)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** starts reading a book mid-fight! &quot;Ooh, this is about DRAGONS! ...Oh wait, we&#39;re fighting. Sorry!&quot;]]
+        (if: $PeteFlail is 2)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** knocks over a bookshelf! It falls the wrong way. &quot;Uh... that was SUPPOSED to happen!&quot;]]
+        (if: $PeteFlail is 3)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** accidentally triggers the return slot! &quot;WHERE DID MY ARM GO?! Oh, there it is!&quot;]]
+        (if: $PeteFlail is 4)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** shushes the enemies! &quot;SHHH! This is a LIBRARY! ...Oh, they don&#39;t care.&quot;]]
     ]
   ]
 }
@@ -2245,7 +2213,7 @@ You grab a metal tray and hurl it at the bots, then flip a table for cover as yo
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $FleeRoll to $RawRoll + $ChristmasMagic)
-    (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $FleeRoll]
 ]
 (if: $FleeRoll &gt;= 14)[
@@ -2270,12 +2238,19 @@ You vault over the lunch counter and land behind a mountain of mystery meat. The
 
 **ACTION:**
 1. Roll your **Healing Dice** (Spell or Potion) on D&amp;D Beyond.
-2. Update your HP on your sheet.
-3. Mark off the item or spell slot!
+2. Mark off the item or spell slot!
 
 You find a candy cane someone dropped. It&#39;s slightly sticky but still good. *Mmm, minty.*
 
-[[Back to the brawl!-&gt;Cafeteria: Enemy Turn]]</tw-passagedata><tw-passagedata pid="77" name="Cafeteria: Killing Blow" tags="" position="375,3675" size="100,100">### COMPLIANCE ACHIEVED
+{
+  (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERED HP &lt;&lt;&quot;)[
+    (set: $HealHP to (number: (prompt: &quot;Enter your Total RECOVERD HP:&quot;, &quot;1&quot;)))
+    (set: $CurrentHP to $CurrentHP + $HealHP)
+    (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
+
+[[Back to the brawl!-&gt;Cafeteria: Enemy Turn]]
+]
+}</tw-passagedata><tw-passagedata pid="77" name="Cafeteria: Killing Blow" tags="" position="375,3675" size="100,100">### COMPLIANCE ACHIEVED
 
 The cream cannon catches you square in the chest. The force of it sends you flying backward over an overturned table, crashing into a pile of discarded trays.
 
@@ -2293,6 +2268,7 @@ The last thing you see is the cafeteria&#39;s flickering fluorescent lights befo
 
 The smell of burnt gruel and industrial cleaning fluid fills the air. Trays clatter as the bots advance.
 
+{
 (if: $ElfJoined is true)[
 (set: $PeteRoll to (random: 1, 20))
 (set: $PeteAtk to (random: 1, 20) + 6)
@@ -2303,53 +2279,58 @@ The smell of burnt gruel and industrial cleaning fluid fills the air. Trays clat
     (if: $M1_HP &gt; 0 and ($M1_HP &lt;= $M2_HP or $M2_HP &lt;= 0))[
         (if: $PeteAtk &gt;= 15)[
             (set: $M1_HP to it - $PeteDmg)
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** throws a lunch tray at $M1_Name! &quot;ORDER UP!&quot; **HIT for $PeteDmg damage!**]
+            (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** throws a lunch tray at $M1_Name! &quot;ORDER UP!&quot; **HIT for $PeteDmg damage!**]
         ](else:)[
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** flings mystery meat at $M1_Name! &quot;EAT THIS! ...Actually don&#39;t, it smells weird.&quot; **MISS!**]
+            (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** flings mystery meat at $M1_Name! &quot;EAT THIS! ...Actually don&#39;t, it smells weird.&quot; **MISS!**]
         ]
     ](else:)[
         (if: $PeteAtk &gt;= 15)[
             (set: $M2_HP to it - $PeteDmg)
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** smashes $M2_Name with a soup ladle! &quot;SOUP&#39;S ON, METAL-HEAD!&quot; **HIT for $PeteDmg damage!**]
+            (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** smashes $M2_Name with a soup ladle! &quot;SOUP&#39;S ON, METAL-HEAD!&quot; **HIT for $PeteDmg damage!**]
         ](else:)[
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** swings a rolling pin at $M2_Name! &quot;BATTER UP!&quot; **MISS!**]
+            (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** swings a rolling pin at $M2_Name! &quot;BATTER UP!&quot; **MISS!**]
         ]
     ]
 ]
 (if: $PeteRoll &gt;= 15 and $PeteRoll &lt;= 17)[
     (set: $CurrentHP to it + $PeteHealAmt)
     (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
-    (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** shoves a cookie in your mouth! &quot;I found this in the GOOD trash can!&quot; **You recover $PeteHealAmt HP!**]
+    (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** shoves a cookie in your mouth! &quot;I found this in the GOOD trash can!&quot; **You recover $PeteHealAmt HP!**]
 ]
 (if: $PeteRoll &gt;= 18)[
-    (if: $PeteFlail is 1)[(text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** slips on spilled gravy! &quot;WHOOOOA!&quot; He slides across the entire cafeteria. &quot;I MEANT TO DO THAT!&quot;]]
-    (if: $PeteFlail is 2)[(text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** gets distracted by the dessert counter! &quot;Ooooh, is that PUDDING?! ...Focus, Pete. Focus.&quot;]]
-    (if: $PeteFlail is 3)[(text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** accidentally activates the soft-serve machine! &quot;OH NO! ...Oh wait, FREE ICE CREAM! ...Oh no, robots!&quot;]]
-    (if: $PeteFlail is 4)[(text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** gets his hand stuck in a vending machine! &quot;I was just checking for snacks! HELP!&quot;]]
+    (if: $PeteFlail is 1)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** slips on spilled gravy! &quot;WHOOOOA!&quot; He slides across the entire cafeteria. &quot;I MEANT TO DO THAT!&quot;]]
+    (if: $PeteFlail is 2)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** gets distracted by the dessert counter! &quot;Ooooh, is that PUDDING?! ...Focus, Pete. Focus.&quot;]]
+    (if: $PeteFlail is 3)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** accidentally activates the soft-serve machine! &quot;OH NO! ...Oh wait, FREE ICE CREAM! ...Oh no, robots!&quot;]]
+    (if: $PeteFlail is 4)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** gets his hand stuck in a vending machine! &quot;I was just checking for snacks! HELP!&quot;]]
 ]
 ]
-
+}
+&lt;br&gt;
 **$M1_Name Status:** (if: $M1_HP &lt; 0)[0](else:)[$M1_HP] / 18 HP
 **$M2_Name Status:** (if: $M2_HP &lt; 0)[0](else:)[$M2_HP] / 18 HP
 **Your Status:** $CurrentHP / $MaxHP HP
 
 **What do you do?**
+{
 (if: $M1_HP &gt; 0)[
 * [[Attack $M1_Name-&gt;Cafeteria: Set 1]]
 ](else:)[
 * ~~$M1_Name (Creamed)~~
 ]
+&lt;br&gt;
 (if: $M2_HP &gt; 0)[
 * [[Attack $M2_Name-&gt;Cafeteria: Set 2]]
 ](else:)[
 * ~~$M2_Name (Creamed)~~
 ]
+&lt;br&gt;
 * [[Dive behind the lunch counter (Heal)-&gt;Cafeteria: Heal]]
 * [[Flip a table and run (Flee)-&gt;Cafeteria: Flee]]
 
 (if: $M1_HP &lt;= 0 and $M2_HP &lt;= 0)[
     (goto: &quot;Act 6: The Spirit Core&quot;)
-]</tw-passagedata><tw-passagedata pid="81" name="Combat Start - Initiative" tags="" position="800,550" size="100,100">### THE BATTLE FOR THE SKIES BEGINS!
+]
+}</tw-passagedata><tw-passagedata pid="81" name="Combat Start - Initiative" tags="" position="775,550" size="100,100">### THE BATTLE FOR THE SKIES BEGINS!
 
 Two mechanical reindeer with glowing red LED eyes and jet-engines strapped to their ribs slam onto the back of the sleigh. Their titanium hooves carve deep gouges into the red velvet floor, and their cooling fans whir with a sound like a thousand angry wasps.
 
@@ -2377,7 +2358,7 @@ Santa yanks the steering column, and the sleigh barrel-rolls over a jagged mount
         &gt;&gt; **A tie! The robots&#39; targeting systems lock on first!** &lt;&lt;
         [[Start Round 1-&gt;Monster Turn: The Robot Charge]]
     ]
-]</tw-passagedata><tw-passagedata pid="82" name="Drone Turn: Drone Attack" tags="" position="612.5,1550" size="100,100">### THE DRONE FIRES!
+]</tw-passagedata><tw-passagedata pid="82" name="Drone Turn: Drone Attack" tags="" position="625,1550" size="100,100">### THE DRONE FIRES!
 
 The drone hovers steadily in the narrow pipe, its laser emitter glowing bright purple.
 
@@ -2421,32 +2402,36 @@ The drone hovers steadily in the narrow pipe, its laser emitter glowing bright p
 The drone hovers in the cramped ductwork, its laser eye tracking your every move.
 
 (if: $ElfJoined is true)[
-(set: $PeteRoll to (random: 1, 20))
-(set: $PeteAtk to (random: 1, 20) + 6)
-(Set: $PeteDmg to (random: 1, 6) + 1)
-(set: $PeteHealAmt to (random: 1, 4))
-(set: $PeteFlail to (random: 1, 4))
-
-&lt;br&gt;
-(if: $PeteRoll &lt;= 14)[
-	(if: $Drone_HP &gt; 0)[
-    	if: $PeteAtk.= $Drone_AC)[
-        	(set: $Drone_HP to $Drone_HP - $PeteDmg)
-            (text-colour: &quot;lime&quot;)[**PEPPERMENT PETE** leaps ahead and thrusts a shapened candy cane into $Drone_Name! &quot;Looks like I left it in //mint// condition!&quot; **HIT for $PeteDmg damage!**]
+    (set: $PeteRoll to (random: 1, 20))
+    (set: $PeteAtk to (random: 1, 20) + 6)
+    (set: $PeteDmg to (random: 1, 6) + 1)
+    (set: $PeteHealAmt to (random: 1, 4))
+    (set: $PeteFlail to (random: 1, 4))
+    
+    &lt;br&gt;
+    (if: $PeteRoll &lt;= 14)[
+        (if: $Drone_HP &gt; 0)[
+            (if: $PeteAtk &gt;= $Drone_AC)[
+                (set: $Drone_HP to $Drone_HP - $PeteDmg)
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** leaps ahead and thrusts a sharpened candy cane into $Drone_Name! &quot;Looks like I left it in //mint// condition!&quot; **HIT for $PeteDmg damage!**]
+            ](else:)[
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** swings at $Drone_Name but misses in the tight space! &quot;These vents are TRICKY!&quot;]
             ]
         ]
     ]
-    (if: $PeteRoll &gt;= 15 and $PeteRoll &lt;= 17))[
-    (set: $CurrentHP to it + $PeteHealAmt)
-    (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
-    (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** crawls up from behind and hands you a candy cane! &quot;I found a PARALLEL VENT! Here, eat this!&quot; **You recover $PeteHealAmt HP!**]
-]
-	(if: $PeteRoll&gt;= 18)[
-    (if: $PeteFlail is 1)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** gets stuck in a narrow section behind you! &quot;I&#39;m okay! Just... give me a second! My buttons are caught!&quot;]
-    (if: $PeteFlail is 2)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** sneezes from all the dust! &quot;ACHOO! Sorry! Vents are DUSTY! Who knew?!&quot;]
-    (if: $PeteFlail is 3)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** bonks his head on a low pipe! &quot;*CLANG* OW! I&#39;m fine! The vent hit ME, actually!&quot;]
-    (if: $PeteFlail is 4)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** is trying to read graffiti scratched into the vent! &quot;Someone wrote &#39;GRIME STINKS&#39; here! That&#39;s TRUE!&quot;]
-]
+    
+    (if: $PeteRoll &gt;= 15 and $PeteRoll &lt;= 17)[
+        (set: $CurrentHP to it + $PeteHealAmt)
+        (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
+        (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** crawls up from behind and hands you a candy cane! &quot;I found a PARALLEL VENT! Here, eat this!&quot; **You recover $PeteHealAmt HP!**]
+    ]
+    
+    (if: $PeteRoll &gt;= 18)[
+        (if: $PeteFlail is 1)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** gets stuck in a narrow section behind you! &quot;I&#39;m okay! Just... give me a second! My buttons are caught!&quot;]]
+        (if: $PeteFlail is 2)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** sneezes from all the dust! &quot;ACHOO! Sorry! Vents are DUSTY! Who knew?!&quot;]]
+        (if: $PeteFlail is 3)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** bonks his head on a low pipe! &quot;*CLANG* OW! I&#39;m fine! The vent hit ME, actually!&quot;]]
+        (if: $PeteFlail is 4)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** is trying to read graffiti scratched into the vent! &quot;Someone wrote &#39;GRIME STINKS&#39; here! That&#39;s TRUE!&quot;]]
+    ]
 ]
 
 **Target:** $Drone_Name | **AC:** $Drone_AC | **HP:** (if: $Drone_HP &lt; 0)[0](else:)[$Drone_HP] / 8
@@ -2468,15 +2453,7 @@ You wind up as best you can in the cramped space and take a swing at the hoverin
     (text-colour: &quot;gold&quot;)[✨ **MAGIC AIM!** Roll $AtkRoll + $ChristmasMagic Bonus = $FinalAtk]
 ]
 
-{
-    (if: $FinalAtk &gt;= $Drone_AC)[
-        (set: _isHit to true)
-    ](else:)[
-        (set: _isHit to false)
-    ]
-}
-
-(if: _isHit)[
+(if: $FinalAtk &gt;= $Drone_AC)[
     ### HIT!
     {
         (set: $RawDmg to (number: (prompt: &quot;Enter Damage Roll:&quot;, &quot;0&quot;)))
@@ -2494,8 +2471,9 @@ You wind up as best you can in the cramped space and take a swing at the hoverin
 
     (text-colour: &quot;orange&quot;)[**CLANG!**]
     **You wallop the drone for $FinalDmg damage!**
+]
 
-](else:)[
+(if: $FinalAtk &lt; $Drone_AC)[
     (text-colour: &quot;cyan&quot;)[**WHIFF!**]
     It&#39;s too fast! You hit the side of the vent, sending a loud *BONG* sound through the pipes.
 ]
@@ -2547,12 +2525,19 @@ You press yourself against the cold metal wall and fumble for a healing potion. 
 
 **ACTION:**
 1. Roll your **Healing Dice** (Spell or Potion) on D&amp;D Beyond.
-2. Update your HP on your sheet.
-3. Mark off the item or spell slot!
+2. Mark off the item or spell slot!
 
 The healing warmth spreads through you as the drone&#39;s targeting laser beeps ominously.
 
-[[Brace yourself!-&gt;Drone Turn: Drone Attack]]</tw-passagedata><tw-passagedata pid="87" name="Drone: Killing Blow" tags="" position="612.5,1675" size="100,100">### TERMINATED IN THE TUNNELS
+{
+   (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERED HP &lt;&lt;&quot;)[
+    (set: $HealHP to (number: (prompt: &quot;Enter your Total RECOVERD HP:&quot;, &quot;1&quot;)))
+    (set: $CurrentHP to $CurrentHP + $HealHP)
+    (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
+
+[[Brace yourself!-&gt;Drone Turn: Drone Attack]]
+]
+}</tw-passagedata><tw-passagedata pid="87" name="Drone: Killing Blow" tags="" position="612.5,1675" size="100,100">### TERMINATED IN THE TUNNELS
 
 The laser catches you in a spot you can&#39;t protect. In the cramped confines of the vent, there&#39;s nowhere to dodge, nowhere to hide.
 
@@ -2578,7 +2563,7 @@ The last thing you hear is the whir of its tiny engines fading down the ductwork
 ]
 
 3. **The Trash Chute (The Risky Path)**: A desperate slide down the disposal system. It&#39;s fast, but who knows what&#39;s at the bottom?
-   * [[Jump into the Chute-&gt;Act 5: Trash Disposal]]</tw-passagedata><tw-passagedata pid="89" name="Factory: Damage Process" tags="" position="75,2675" size="100,100">(set: $Atk to (number: (prompt: &quot;Roll vs AC 13:&quot;, &quot;0&quot;)) + $ChristmasMagic)
+   * [[Jump into the Chute-&gt;Act 5: Trash Disposal]]</tw-passagedata><tw-passagedata pid="89" name="Factory: Damage Process" tags="" position="650,2575" size="100,100">(set: $Atk to (number: (prompt: &quot;Roll vs AC 13:&quot;, &quot;0&quot;)) + $ChristmasMagic)
 (if: $Atk &gt;= 13)[
     (set: $Dmg to (number: (prompt: &quot;HIT! Enter damage (minimum 1):&quot;, &quot;0&quot;)) + ($ChristmasMagic * 2))
     (if: $Dmg &lt; 1)[(set: $Dmg to 1)]
@@ -2600,7 +2585,7 @@ The last thing you hear is the whir of its tiny engines fading down the ductwork
 ]
 (if: $M1_HP &gt; 0 or $M2_HP &gt; 0)[
     &lt;br&gt;[[End Turn-&gt;Factory: Enemy Turn]]
-]</tw-passagedata><tw-passagedata pid="90" name="Factory: Enemy Turn" tags="" position="600,2700" size="100,100">### THE MACHINES STRIKE BACK!
+]</tw-passagedata><tw-passagedata pid="90" name="Factory: Enemy Turn" tags="" position="650,2700" size="100,100">### THE MACHINES STRIKE BACK!
 
 {
   (set: $TotalDamage to 0)
@@ -2671,16 +2656,16 @@ The last thing you hear is the whir of its tiny engines fading down the ductwork
 
 (if: $CurrentHP &gt; 0)[
     [[Your Turn!-&gt;Factory: Target Selection]]
-]</tw-passagedata><tw-passagedata pid="91" name="Factory: Flee" tags="" position="300,2675" size="100,100">### EMERGENCY EVACUATION
+]</tw-passagedata><tw-passagedata pid="91" name="Factory: Flee" tags="" position="525,2675" size="100,100">### EMERGENCY EVACUATION
 
 You spot an &quot;Emergency Exit&quot; sign glowing red above a service door. Time to make a break for it!
 
-(set: $FleeRoll to (number: (prompt: &quot;Roll Dexterity (Acrobatics) DC 13 to dodge through the machinery:&quot;, &quot;0&quot;)))
+(set: $RawRoll to (number: (prompt: &quot;Roll Dexterity (Acrobatics) DC 13 to dodge through the machinery:&quot;, &quot;0&quot;)))
 (set: $FleeRoll to $RawRoll)
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $FleeRoll to $RawRoll + $ChristmasMagic)
-    (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $FleeRoll]
 ]
 (if: $FleeRoll &gt;= 13)[
@@ -2705,19 +2690,22 @@ You dive behind a moving conveyor belt loaded with half-finished toy trucks. Whi
 
 **ACTION:**
 1. Roll your **Healing Dice** (Spell or Potion).
-2. Mark the spel/item off on your inventory of your character sheet.
+2. Mark the spell/item off on your inventory of your character sheet.
 
 A toy truck bonks you on the head as it passes. &quot;BEEP BEEP!&quot; it squeaks cheerfully.
 
 {
-  (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERD HP &lt;&lt;&quot;)[
-    (set: $CurrentHP to (number: (prompt: &quot;Enter your Total RECOVERD HP:&quot;, (str: $CurrentHP))))
-
+  (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERED HP &lt;&lt;&quot;)[
+    (set: $HealHP to (number: (prompt: &quot;Enter your Total RECOVERD HP:&quot;, &quot;1&quot;)))
+    (set: $CurrentHP to $CurrentHP + $HealHP)
     (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
+
+ 
+    
 
     (goto: &quot;Factory: Enemy Turn&quot;)
   ]
-}</tw-passagedata><tw-passagedata pid="93" name="Factory: Killing Blow" tags="" position="550,2925" size="100,100">### EFFICIENCY ACHIEVED
+}</tw-passagedata><tw-passagedata pid="93" name="Factory: Killing Blow" tags="" position="750,2700" size="100,100">### EFFICIENCY ACHIEVED
 
 The combined assault of laser and staple overwhelms your defenses. You stumble backward into a conveyor belt of half-finished toys, your vision swimming.
 
@@ -2729,9 +2717,9 @@ The Efficiency Guard adjusts his tiny hard hat and marks something on his clipbo
 **Efficiency Guard:** (if: $M2_HP &lt; 0)[0](else:)[$M2_HP] / 15 HP
 **Your Status:** $CurrentHP / $MaxHP HP
 
-[[The assembly line keeps moving...-&gt;Game Over: The Grey Christmas]]</tw-passagedata><tw-passagedata pid="94" name="Factory: Set Target 1" tags="" position="112.5,2800" size="100,100">(set: $Target to 1)
+[[The assembly line keeps moving...-&gt;Game Over: The Grey Christmas]]</tw-passagedata><tw-passagedata pid="94" name="Factory: Set Target 1" tags="" position="975,2575" size="100,100">(set: $Target to 1)
 (set: $TargetName to $M1_Name)
-(goto: &quot;Factory: Damage Process&quot;)</tw-passagedata><tw-passagedata pid="95" name="Factory: Set Target 2" tags="" position="200,2800" size="100,100">(set: $Target to 2)
+(goto: &quot;Factory: Damage Process&quot;)</tw-passagedata><tw-passagedata pid="95" name="Factory: Set Target 2" tags="" position="850,2575" size="100,100">(set: $Target to 2)
 (set: $TargetName to $M2_Name)
 (goto: &quot;Factory: Damage Process&quot;)</tw-passagedata><tw-passagedata pid="96" name="Factory: Target Selection" tags="" position="425,2675" size="100,100">{
     (if: $M1_HP &lt;= 0 and $M2_HP &lt;= 0)[
@@ -2745,20 +2733,21 @@ The Efficiency Guard adjusts his tiny hard hat and marks something on his clipbo
         (set: $PeteHealAmt to (random: 1, 4))
         (set: $PeteFlail to (random: 1, 4))
         
-        &lt;br&gt; (if: $PeteRoll &lt;= 14)[
+        &lt;br&gt;
+        (if: $PeteRoll &lt;= 14)[
             (if: $M1_HP &gt; 0 and ($M1_HP &lt;= $M2_HP or $M2_HP &lt;= 0))[
                 (if: $PeteAtk &gt;= $TargetAC)[
                     (set: $M1_HP to it - $PeteDmg)
-                    (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** leaps onto a conveyor belt and attacks $M1_Name! &quot;I&#39;VE ALWAYS WANTED TO DO THIS!&quot; **HIT for $PeteDmg damage!**]
+                    (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** leaps onto a conveyor belt and attacks $M1_Name! &quot;I&#39;VE ALWAYS WANTED TO DO THIS!&quot; **HIT for $PeteDmg damage!**]
                 ](else:)[
-                    (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** swings at $M1_Name from a moving belt! &quot;WHEEE—OOF!&quot; **MISS!**]
+                    (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** swings at $M1_Name from a moving belt! &quot;WHEEE—OOF!&quot; **MISS!**]
                 ]
             ](else:)[
                 (if: $PeteAtk &gt;= $TargetAC)[
                     (set: $M2_HP to it - $PeteDmg)
-                    (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** throws a toy truck at $M2_Name! &quot;SPECIAL DELIVERY!&quot; **HIT for $PeteDmg damage!**]
+                    (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** throws a toy truck at $M2_Name! &quot;SPECIAL DELIVERY!&quot; **HIT for $PeteDmg damage!**]
                 ](else:)[
-                    (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** hurls a toy at $M2_Name! &quot;CATCH!&quot; **MISS!** (They did not catch it.)]
+                    (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** hurls a toy at $M2_Name! &quot;CATCH!&quot; **MISS!** (They did not catch it.)]
                 ]
             ]
         ]
@@ -2766,14 +2755,14 @@ The Efficiency Guard adjusts his tiny hard hat and marks something on his clipbo
         (if: $PeteRoll &gt;= 15 and $PeteRoll &lt;= 17)[
             (set: $CurrentHP to it + $PeteHealAmt)
             (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
-            (text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** tosses you something from the belt! &quot;I found a HEALING CANDY in the reject pile! It&#39;s only a LITTLE dented!&quot; **You recover $PeteHealAmt HP!**]
+            (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** tosses you something from the belt! &quot;I found a HEALING CANDY in the reject pile! It&#39;s only a LITTLE dented!&quot; **You recover $PeteHealAmt HP!**]
         ]
         
         (if: $PeteRoll &gt;= 18)[
-            (if: $PeteFlail is 1)[(text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** gets his foot stuck in a conveyor belt! &quot;Uh oh! This is fine! TOTALLY FINE!&quot;]]
-            (if: $PeteFlail is 2)[(text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** gets distracted pressing random buttons! &quot;Ooh, what does THIS one do? ...Nothing? Boring!&quot;]]
-            (if: $PeteFlail is 3)[(text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** accidentally assembles a toy car! &quot;LOOK! I made something! ...Is now a bad time?&quot;]]
-            (if: $PeteFlail is 4)[(text-colour: &quot;lime&quot;)[[**PEPPERMINT PETE** slips on machine grease! &quot;WHOOOOA—&quot; *CRASH* &quot;I&#39;m okay! The floor broke my fall!&quot;]]
+            (if: $PeteFlail is 1)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** gets his foot stuck in a conveyor belt! &quot;Uh oh! This is fine! TOTALLY FINE!&quot;]]
+            (if: $PeteFlail is 2)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** gets distracted pressing random buttons! &quot;Ooh, what does THIS one do? ...Nothing? Boring!&quot;]]
+            (if: $PeteFlail is 3)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** accidentally assembles a toy car! &quot;LOOK! I made something! ...Is now a bad time?&quot;]]
+            (if: $PeteFlail is 4)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** slips on machine grease! &quot;WHOOOOA—&quot; *CRASH* &quot;I&#39;m okay! The floor broke my fall!&quot;]]
         ]
     ]
 }
@@ -2810,23 +2799,23 @@ Conveyor belts grind around you. The air smells of hot plastic and menacing effi
 [[Sprint for the exit (Flee)-&gt;Factory: Flee]]</tw-passagedata><tw-passagedata pid="97" name="Final: Damage Process" tags="" position="300,4250" size="100,100">:: Final: Damage Process
 ### ATTACKING $TargetName
 
+{
 (set: $AtkRoll to (number: (prompt: &quot;Roll vs AC &quot; + (text: $CurrentAC) + &quot;:&quot;, &quot;0&quot;)))
 (set: $FinalAtk to $AtkRoll + $ChristmasMagic)
 
 (if: $ChristmasMagic &gt; 0)[
-    (print: &quot;(text-colour:&quot;gold&quot;)✨ [**MAGIC AIM!** Roll &quot; + (text: $AtkRoll) + &quot; + &quot; + (text: $ChristmasMagic) + &quot; Bonus = &quot; + (text: $FinalAtk) + &quot;]&quot;)
+    (text-colour: &quot;gold&quot;)[✨ **MAGIC AIM!** Roll $AtkRoll + $ChristmasMagic = $FinalAtk]
 ]
-
+&lt;br&gt;
 (if: $FinalAtk &gt;= $CurrentAC)[
     (set: $RawDmg to (number: (prompt: &quot;HIT! Enter damage dealt (minimum 1):&quot;, &quot;0&quot;)))
-
     (if: $RawDmg &lt; 1)[(set: $RawDmg to 1)]
 
     (set: $MagicDmgBonus to $ChristmasMagic * 2)
     (set: $AbilityBonus to 0)
 
     (if: $ChristmasMagic &gt; 0)[
-         (print: &quot;(text-colour:&quot;gold&quot;)✨ [**MAGIC SMASH!** Damage &quot; + (text: $RawDmg) + &quot; + &quot; + (text: $MagicDmgBonus) + &quot; Magic Bonus]&lt;br&gt;&quot;)
+         (text-colour: &quot;gold&quot;)[✨ **MAGIC SMASH!** +$MagicDmgBonus Bonus Damage!]
     ]
 
     (if: $GnomeVanguard is true and $UsedVanguardBonus is false and $Target is 1)[
@@ -2848,9 +2837,10 @@ Conveyor belts grind around you. The air smells of hot plastic and menacing effi
     (if: $Target is 2)[(set: $M2_HP to $M2_HP - $TotalDmg)(set: $NewHP to $M2_HP)]
     (if: $Target is 3)[(set: $M3_HP to $M3_HP - $TotalDmg)(set: $NewHP to $M3_HP)]
 
+&lt;br&gt;
     &gt;&gt; **BOOM!** &lt;&lt;
     You strike $TargetName for $TotalDmg damage!
-
+&lt;br&gt;
     (if: $NewHP &lt;= 0)[
         **$TargetName has been DESTROYED!**
     ](else:)[
@@ -2860,11 +2850,11 @@ Conveyor belts grind around you. The air smells of hot plastic and menacing effi
     &gt;&gt; **CLANG!** &lt;&lt;
     Your attack bounces off the cold, industrial armor!
 ]
-
+}
 &lt;br&gt;
 **General Grime:** (if: $M1_HP &lt; 0)[0](else:)[$M1_HP] / 45 HP
-**Siphon Drone A:** (if: $M2_HP &lt; 0)[0](else:)[$M2_HP] / 8 HP
-**Siphon Drone B:** (if: $M3_HP &lt; 0)[0](else:)[$M3_HP] / 8 HP
+**Siphon Drone A:** (if: $M2_HP &lt; 0)[0](else:)[$M2_HP] / 10 HP
+**Siphon Drone B:** (if: $M3_HP &lt; 0)[0](else:)[$M3_HP] / 10 HP
 **Your Status:** $CurrentHP / $MaxHP HP
 
 (if: $M1_HP &lt;= 0)[
@@ -2994,7 +2984,7 @@ You look toward the exit. Maybe you could regroup, come back with reinforcements
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $FleeRoll to $RawRoll + $ChristmasMagic)
-    (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $FleeRoll]
 ]
 (if: $FleeRoll &gt;= 18)[
@@ -3018,12 +3008,20 @@ You dive behind a pile of deactivated siphon equipment. The Core&#39;s warm glow
 
 **ACTION:**
 1. Roll your **Healing Dice** (Spell or Potion) on D&amp;D Beyond.
-2. Update your HP on your sheet.
-3. Mark off the item or spell slot!
+2. Mark off the item or spell slot!
 
 &quot;Don&#39;t die on me now!&quot; Santa yells. &quot;We&#39;re too close!&quot;
 
-[[Back into the fight!-&gt;Final: Enemy Turn]]</tw-passagedata><tw-passagedata pid="102" name="Final: Killing Blow" tags="" position="700,4375" size="100,100">### THE FINAL BLOW
+{
+   (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERED HP &lt;&lt;&quot;)[
+    (set: $HealHP to (number: (prompt: &quot;Enter your Total RECOVERD HP:&quot;, &quot;1&quot;)))
+    (set: $CurrentHP to $CurrentHP + $HealHP)
+    (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
+
+
+[[Back into the fight!-&gt;Final: Enemy Turn]]
+]
+}</tw-passagedata><tw-passagedata pid="102" name="Final: Killing Blow" tags="" position="700,4375" size="100,100">### THE FINAL BLOW
 
 The blast catches you square in the chest.
 
@@ -3053,11 +3051,7 @@ General Grime&#39;s massive iron boots shake the floor as he looms over you. His
 
 The Spirit Core pulses weakly above you. This is it—the fight for Christmas itself!
 
-**General Grime:** (if: $M1_HP &lt; 0)[0](else:)[$M1_HP] / 45 HP
-**Siphon Drone A:** (if: $M2_HP &lt; 0)[0](else:)[$M2_HP] / 8 HP
-**Siphon Drone B:** (if: $M3_HP &lt; 0)[0](else:)[$M3_HP] / 8 HP
-**Your Status:** $CurrentHP / $MaxHP HP
-
+{
 (set: $SantaAction to (random: 1, 3))
 (if: $SantaAction is 1)[
     (text-colour:&quot;gold&quot;)[**SANTA&#39;S SUPPORT:** &quot;Hold still, kid!&quot; Santa tosses you a glowing candy cane!]
@@ -3080,53 +3074,68 @@ The Spirit Core pulses weakly above you. This is it—the fight for Christmas it
 (if: $SantaAction is 3)[
     (text-colour:&quot;cyan&quot;)[**SANTA&#39;S BUSY:** &quot;Cover me!&quot; Santa dives behind a console, rewiring something frantically. &quot;I&#39;m trying to boost the Core&#39;s defenses!&quot;]
 ]
+}
 
+&lt;br&gt;
+
+{
 (if: $ElfJoined is true)[
-(set: $PeteRoll to (random: 1, 20))
-(set: $PeteAtk to (random: 1, 20) + 6)
-(set: $PeteDmg to (random: 1, 6) + 1)
-(set: $PeteHealAmt to (random: 1, 4))
-(set: $PeteFlail to (random: 1, 4))
-(if: $PeteRoll &lt;= 14)[
-    (if: $M2_HP &gt; 0 and $M2_HP &lt;= 8)[
-        (if: $PeteAtk &gt;= 13)[
-            (set: $M2_HP to it - $PeteDmg)
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** hurls a broken gear at Siphon Drone A! &quot;YOU&#39;RE NOT SIPHONING ANYTHING TODAY!&quot; **HIT for $PeteDmg damage!**]
+    (set: $PeteRoll to (random: 1, 20))
+    (set: $PeteAtk to (random: 1, 20) + 6)
+    (set: $PeteDmg to (random: 1, 6) + 1)
+    (set: $PeteHealAmt to (random: 1, 4))
+    (set: $PeteFlail to (random: 1, 4))
+    
+    (if: $PeteRoll &lt;= 14)[
+        (if: $M2_HP &gt; 0 and $M2_HP &lt;= 10)[
+            (if: $PeteAtk &gt;= 13)[
+                (set: $M2_HP to it - $PeteDmg)
+                (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** hurls a broken gear at Siphon Drone A! &quot;YOU&#39;RE NOT SIPHONING ANYTHING TODAY!&quot; **HIT for $PeteDmg damage!**]
+            ](else:)[
+                (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** swings at Siphon Drone A! &quot;I&#39;LL SAVE YOU, SPIRIT CORE!&quot; **MISS!**]
+            ]
+        ](elseif: $M3_HP &gt; 0 and $M3_HP &lt;= 10)[
+            (if: $PeteAtk &gt;= 13)[
+                (set: $M3_HP to it - $PeteDmg)
+                (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** tackles Siphon Drone B! &quot;GET AWAY FROM THE SHINY THING!&quot; **HIT for $PeteDmg damage!**]
+            ](else:)[
+                (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** lunges at Siphon Drone B! &quot;STOP THAT SIPHONING!&quot; **MISS!**]
+            ]
         ](else:)[
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** swings at Siphon Drone A! &quot;I&#39;LL SAVE YOU, SPIRIT CORE!&quot; **MISS!**]
+            (if: $PeteAtk &gt;= 16)[
+                (set: $M1_HP to it - $PeteDmg)
+                (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** charges at GENERAL GRIME! &quot;FOR CHRISTMAAAAS!&quot; **HIT for $PeteDmg damage!**]
+            ](else:)[
+                (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** swings at General Grime! &quot;TAKE THAT, YOU BIG MEANIE!&quot; **MISS!** (He bounces off like a pinball.)]
+            ]
         ]
-    ](else:)[(if: $M3_HP &gt; 0 and $M3_HP &lt;= 8)[
-        (if: $PeteAtk &gt;= 13)[
-            (set: $M3_HP to it - $PeteDmg)
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** tackles Siphon Drone B! &quot;GET AWAY FROM THE SHINY THING!&quot; **HIT for $PeteDmg damage!**]
-        ](else:)[
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** lunges at Siphon Drone B! &quot;STOP THAT SIPHONING!&quot; **MISS!**]
-        ]
-    ](else:)[
-        (if: $PeteAtk &gt;= 16)[
-            (set: $M1_HP to it - $PeteDmg)
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** charges at GENERAL GRIME! &quot;FOR CHRISTMAAAAS!&quot; **HIT for $PeteDmg damage!**]
-        ](else:)[
-            (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** swings at General Grime! &quot;TAKE THAT, YOU BIG MEANIE!&quot; **MISS!** (He bounces off like a pinball.)]
-        ]
-    ]]
+    ]
+    
+    (if: $PeteRoll &gt;= 15 and $PeteRoll &lt;= 17)[
+        (set: $CurrentHP to it + $PeteHealAmt)
+        (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
+        (text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** produces a candy cane from... somewhere! &quot;THIS IS MY LAST ONE! I&#39;VE BEEN SAVING IT!&quot; **You recover $PeteHealAmt HP!**]
+    ]
+    
+    (if: $PeteRoll &gt;= 18)[
+        (if: $PeteFlail is 1)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** trips on a fallen drone! &quot;WHOOPS! I&#39;m okay! The floor is VERY hard here!&quot;]]
+        (if: $PeteFlail is 2)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** gets distracted by the Spirit Core&#39;s glow! &quot;It&#39;s so PRETTY... Focus, Pete! FOCUS!&quot;]]
+        (if: $PeteFlail is 3)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** waves at Santa mid-combat! &quot;HI SANTA! I&#39;M HELPING! ARE YOU PROUD?!&quot;]]
+        (if: $PeteFlail is 4)[(text-colour:&quot;lime&quot;)[**PEPPERMINT PETE** accidentally picks up a piece of Grime&#39;s armor! &quot;Ooh, souvenir! ...Wait, he&#39;s still using this!&quot;]]
+    ]
 ]
-(if: $PeteRoll &gt;= 15 and $PeteRoll &lt;= 17)[
-    (set: $CurrentHP to it + $PeteHealAmt)
-    (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
-    (text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** produces a candy cane from... somewhere! &quot;THIS IS MY LAST ONE! I&#39;VE BEEN SAVING IT!&quot; **You recover $PeteHealAmt HP!**]
-]
-(if: $PeteRoll &gt;= 18)[
-    (if: $PeteFlail is 1)[(text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** trips on a fallen drone! &quot;WHOOPS! I&#39;m okay! The floor is VERY hard here!&quot;]]
-    (if: $PeteFlail is 2)[(text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** gets distracted by the Spirit Core&#39;s glow! &quot;It&#39;s so PRETTY... Focus, Pete! FOCUS!&quot;]]
-    (if: $PeteFlail is 3)[(text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** waves at Santa mid-combat! &quot;HI SANTA! I&#39;M HELPING! ARE YOU PROUD?!&quot;]]
-    (if: $PeteFlail is 4)[(text-colour:&quot;lime&quot;)[[**PEPPERMINT PETE** accidentally picks up a piece of Grime&#39;s armor! &quot;Ooh, souvenir! ...Wait, he&#39;s still using this!&quot;]]
-]
-]
+}
+
+**General Grime:** (if: $M1_HP &lt; 0)[0](else:)[$M1_HP] / 45 HP
+**Siphon Drone A:** (if: $M2_HP &lt; 0)[0](else:)[$M2_HP] / 10 HP
+**Siphon Drone B:** (if: $M3_HP &lt; 0)[0](else:)[$M3_HP] / 10 HP
+**Your Status:** $CurrentHP / $MaxHP HP
 
 ---
 
 **What do you do?**
+&lt;br&gt;
+{
 (if: $M1_HP &gt; 0)[
 * [[Attack General Grime (AC 16)-&gt;Final: Set Target 1]]
 ](else:)[
@@ -3146,8 +3155,9 @@ The Spirit Core pulses weakly above you. This is it—the fight for Christmas it
 * ~~Siphon Drone B (Offline)~~
 ]
 * [[Take cover and heal-&gt;Final: Heal]]
-* [[Attempt tactical retreat (Flee)-&gt;Final: Flee]]
 
+* [[Attempt tactical retreat (Flee)-&gt;Final: Flee]]
+}
 (if: $M1_HP &lt;= 0)[
     (goto: &quot;The Grand Finale: Victory&quot;)
 ]</tw-passagedata><tw-passagedata pid="107" name="Final: The Gift" tags="" position="1000,375" size="100,100">:: Final: The Gift
@@ -3235,7 +3245,7 @@ You hurl the glittering sphere. &quot;Careful!&quot; Santa shouts. &quot;That&#3
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    (text-colour:&quot;gold&quot;)✨ [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
     **Total:** $CheckRoll]
 ]
 (if: $CheckRoll &gt;= 13)[
@@ -3307,9 +3317,9 @@ You duck behind a snow-covered ammunition crate and fish out a healing potion fr
 Santa peeks over the crate. &quot;Good thinking! I&#39;ll keep them busy!&quot; He throws a handful of explosive baubles at the guards.
 
 {
-  (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERED HP &lt;&lt;&quot;)[
-    (set: $CurrentHP to (number: (prompt: &quot;Enter your Total recovered HP:&quot;, (str: $CurrentHP))))
-
+   (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERED HP &lt;&lt;&quot;)[
+    (set: $HealHP to (number: (prompt: &quot;Enter your Total RECOVERD HP:&quot;, &quot;1&quot;)))
+    (set: $CurrentHP to $CurrentHP + $HealHP)
     (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
 
     (goto: &quot;Monster Turn: Gnome Attack&quot;)
@@ -3458,9 +3468,51 @@ Looking through the internal windows, you see miles of conveyor belts churning o
    * [[Go low-&gt;Act 3: The Factory Floor]]
 
 3. **The Break Room (Social/Charisma)**: &quot;I hear Gnomes complaining in the lounge. Maybe I can turn them against the robots.&quot;
-   * [[Find the Gnomes-&gt;Act 3: The Break Room]]</tw-passagedata><tw-passagedata pid="119" name="Hub: Attack" tags="" position="500,1925" size="100,100">### YOUR TURN - SECURITY HUB
+   * [[Find the Gnomes-&gt;Act 3: The Break Room]]</tw-passagedata><tw-passagedata pid="119" name="Hub: Target Selection" tags="" position="675,1800" size="100,100">### YOUR TURN - SECURITY HUB
 
 The monitors hum with data. The smell of burnt coffee fills the air.
+
+{
+  (if: $ElfJoined is true)[
+    (set: $PeteRoll to (random: 1, 20))
+    (set: $PeteAtk to (random: 1, 20) + 6)
+    (set: $PeteDmg to (random: 1, 6) + 1)
+    (set: $PeteHealAmt to (random: 1, 4))
+    (set: $PeteFlail to (random: 1, 4))
+
+    &lt;br&gt;
+    (if: $PeteRoll &lt;= 14)[
+        (if: $HG_HP &gt; 0 and ($HG_HP &lt;= $HG2_HP or $HG2_HP &lt;= 0))[
+            (if: $PeteAtk &gt;= 14)[
+                (set: $HG_HP to it - $PeteDmg)
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** throws a stapler at $HG_Name! &quot;PAPERWORK THIS!&quot; **HIT for $PeteDmg damage!**]
+            ](else:)[
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** swings a keyboard at $HG_Name! &quot;TYPE FASTER!&quot; **MISS!**]
+            ]
+        ](elseif: $HG2_HP &gt; 0)[
+            (if: $PeteAtk &gt;= 13)[
+                (set: $HG2_HP to it - $PeteDmg)
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** whacks the Backup Guard with a monitor! &quot;SCREEN TIME!&quot; **HIT for $PeteDmg damage!**]
+            ](else:)[
+                (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** throws a coffee mug at the Backup Guard! &quot;WAKE UP!&quot; **MISS!**]
+            ]
+        ]
+    ]
+
+    (if: $PeteRoll &gt;= 15 and $PeteRoll &lt;= 17)[
+        (set: $CurrentHP to it + $PeteHealAmt)
+        (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
+        (text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** finds a candy cane in a desk drawer! &quot;EMERGENCY SNACK!&quot; **You recover $PeteHealAmt HP!**]
+    ]
+
+    (if: $PeteRoll &gt;= 18)[
+        (if: $PeteFlail is 1)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** gets tangled in computer cables! &quot;I&#39;M A ROBOT NOW! ...Wait, no I&#39;m not!&quot;]]
+        (if: $PeteFlail is 2)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** starts reading emails on a screen! &quot;Ooh, someone ordered PIZZA! ...Two weeks ago...&quot;]]
+        (if: $PeteFlail is 3)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** accidentally unplugs something important! All the monitors flicker. &quot;THAT WASN&#39;T ME!&quot;]]
+        (if: $PeteFlail is 4)[(text-colour: &quot;lime&quot;)[**PEPPERMINT PETE** spins around in the office chair! &quot;WHEEEEE! This is FUN! Oh right, FIGHTING!&quot;]]
+    ]
+  ]
+}
 
 **Head Gnome:** (if: $HG_HP &lt; 0)[0](else:)[$HG_HP] / $HG_MaxHP HP
 (if: $HG_Backup is true)[**Backup Guard:** (if: $HG2_HP &lt; 0)[0](else:)[$HG2_HP] / 15 HP]
@@ -3471,7 +3523,7 @@ The monitors hum with data. The smell of burnt coffee fills the air.
 (if: $HG_HP &gt; 0)[
     (link: &quot;Attack Head Gnome ($HG_AC AC)&quot;)[
         (set: $Target to &quot;HG&quot;)
-        (goto: &quot;Hub: Attack&quot;)
+        (goto: &quot;Hub: Player Attack&quot;)
     ]
 ](else:)[
     (text-colour: &quot;gray&quot;)[~~Head Gnome (Unconscious)~~]
@@ -3481,16 +3533,11 @@ The monitors hum with data. The smell of burnt coffee fills the air.
     (if: $HG2_HP &gt; 0)[
         (link: &quot;Attack Backup Guard (13 AC)&quot;)[
             (set: $Target to &quot;Backup&quot;)
-            (goto: &quot;Hub: Attack&quot;)
+            (goto: &quot;Hub: Player Attack&quot;)
         ]
     ](else:)[
         (text-colour: &quot;gray&quot;)[~~Backup Guard (Defeated)~~]
     ]
-]
-
-(if: $ElfJoined is true)[
-    &lt;br&gt;
-    *Pete is throwing staplers at the enemies! &quot;Take that! And that!&quot;*
 ]
 
 &lt;br&gt;
@@ -3499,8 +3546,9 @@ The monitors hum with data. The smell of burnt coffee fills the air.
 
 (if: $HG_HP &lt;= 0 and ($HG_Backup is false or $HG2_HP &lt;= 0))[
     &lt;br&gt;
-    (link-goto: &quot;VICTORY: The Hub is Secured!&quot;, &quot;Hub: Victory&quot;)
-]</tw-passagedata><tw-passagedata pid="120" name="Hub: Bluff" tags="" position="625,1925" size="100,100">### THE ULTIMATE DECEPTION
+    [[VICTORY!-&gt;Act 2: Hub Success]]
+]</tw-passagedata><tw-passagedata pid="120" name="Hub: Bluff" tags="" position="625,1925" size="100,100">
+### THE ULTIMATE DECEPTION
 
 You stand up tall and try to look like you belong here.
 
@@ -3516,8 +3564,16 @@ You stand up tall and try to look like you belong here.
 
 {
   (link: &quot;&gt;&gt; ATTEMPT TO LIE &lt;&lt;&quot;)[
-      (set: $RawRoll to (number: (prompt: &quot;Roll Charisma (Deception) vs DC &quot; + (str: $DC) + &quot;:&quot;, &quot;0&quot;)))
+      (set: $PromptText to &quot;Roll Charisma (Deception) vs DC &quot; + (str: $DC))
+      (if: $RollMod is &quot;Advantage&quot;)[
+          (set: $PromptText to it + &quot; (ADVANTAGE - roll 2d20, take HIGHER)&quot;)
+      ]
+      (if: $RollMod is &quot;Disadvantage&quot;)[
+          (set: $PromptText to it + &quot; (DISADVANTAGE - roll 2d20, take LOWER)&quot;)
+      ]
+      (set: $RawRoll to (number: (prompt: $PromptText + &quot;:&quot;, &quot;0&quot;)))
       (set: $FinalRoll to $RawRoll)
+      (set: $RollMod to 0)
 
       (if: $ChristmasMagic &gt; 0)[
           (set: $FinalRoll to it + $ChristmasMagic)
@@ -3527,7 +3583,7 @@ You stand up tall and try to look like you belong here.
 
       (if: $DeceptionBonus &gt; 0)[
           (set: $FinalRoll to it + $DeceptionBonus)
-          &gt;&gt; Mustache Wax Bonus: +$DeceptionBonus! &lt;&lt;
+          &gt;&gt; Mustache Wax Bonus: +$DeceptionBonus! 
           &lt;br&gt;
       ]
 
@@ -3547,10 +3603,14 @@ You stand up tall and try to look like you belong here.
           &quot;Glitter-cleanup?&quot; the Gnome narrows his eyes. &quot;You&#39;re not wearing the official tinsel-poncho! INTRUDER!! ALARM!!&quot;
           (set: $DeceptionBonus to 0)
 
-          [[Time to fight!-&gt;Hub: Attack]]
+          [[Time to fight!-&gt;Hub: Target Selection]]
       ]
   ]
 }</tw-passagedata><tw-passagedata pid="121" name="Hub: Gnome Counter" tags="" position="500,2050" size="100,100">### THE HEAD GNOME FIGHTS BACK!
+
+{
+  (set: $HG_RoundCount to $HG_RoundCount + 1)
+}
 
 The Gnome snarls and swings his candy-cane letter opener at your face!
 
@@ -3577,21 +3637,20 @@ The Gnome snarls and swings his candy-cane letter opener at your face!
 **Your Status:** (max: 0, $CurrentHP) / $MaxHP HP
 
 {
-  (if: $HG_RoundCount &gt;= 3 and $HG_Backup is not true)[
+  (if: $HG_RoundCount &gt;= 3 and $HG_Backup is false)[
       (set: $HG_Backup to true)
       (set: $HG2_HP to 15)
       &lt;br&gt;
       (text-colour: &quot;orange&quot;)[**REINFORCEMENTS!** The Gnome slams the panic button! A second guard bursts through the door!]
   ]
-  
-  }
+}
 
 ---
 
 (if: $CurrentHP &lt;= 0)[
     (goto: &quot;Hub: Gnome Killing Blow&quot;)
 ](else:)[
-    [[Your Turn!-&gt;Hub: Attack]]
+    [[Your Turn!-&gt;Hub: Target Selection]]
 ]</tw-passagedata><tw-passagedata pid="122" name="Hub: Gnome Killing Blow" tags="" position="500,2175" size="100,100">### FILED UNDER &quot;D&quot; FOR &quot;DEFEATED&quot;
 
 The Head Gnome&#39;s candy-cane letter opener finds its mark. The sharpened peppermint edge bites deep, and the world starts to spin.
@@ -3612,30 +3671,40 @@ You creep toward the glowing green monitors. Lines of code that look like fallin
     The Gnome is watching the screens closely! &quot;The glitter-sensor is spiking!&quot; he mutters. You have to be incredibly fast.
 ](else:)[
     (set: $DC to 12)
-    The Gnome is busy watching a video of &quot;Extreme Gift Wrapping.&quot; He’s completely distracted!
+    The Gnome is busy watching a video of &quot;Extreme Gift Wrapping.&quot; He&#39;s completely distracted!
 ]
 
-(set: $RawRoll to (number: (prompt: &quot;Roll Intelligence (Investigation) vs DC &quot; + (str: $DC) + &quot;:&quot;, &quot;0&quot;)))
+(set: $PromptText to &quot;Roll Intelligence (Investigation) vs DC &quot; + (str: $DC))
+(if: $RollMod is &quot;Advantage&quot;)[
+    (set: $PromptText to it + &quot; (ADVANTAGE - roll 2d20, take HIGHER)&quot;)
+]
+(if: $RollMod is &quot;Disadvantage&quot;)[
+    (set: $PromptText to it + &quot; (DISADVANTAGE - roll 2d20, take LOWER)&quot;)
+]
+(set: $RawRoll to (number: (prompt: $PromptText + &quot;:&quot;, &quot;0&quot;)))
 (set: $CheckRoll to $RawRoll)
+(set: $RollMod to 0)
 
 (if: $ChristmasMagic &gt; 0)[
     (set: $CheckRoll to $RawRoll + $ChristmasMagic)
-    [**CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
-    **Total:** $CheckRoll]
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!]
+    **Total:** $CheckRoll
 ]
+
 (if: $CheckRoll &gt;= $DC)[
     ### **I&#39;M IN!**
     Your fingers fly across the keys. With a final *CLICK*, the fortress side-doors slide open. You even manage to trigger the &quot;Office Party&quot; mode, causing the alarm speakers to play polka music instead of sirens.
 
     [[The Doors are Open!-&gt;Act 2: Hub Success]]
 ]
+
 (if: $CheckRoll &lt; $DC)[
     ### **ACCESS DENIED!**
     A giant red &quot;X&quot; appears on the screen. The terminal lets out a loud **HONK** like a sad reindeer.
 
-    &quot;HEY!&quot; the Gnome shouts, spinning his chair around. &quot;That’s my private spreadsheet! Get away from there!&quot;
+    &quot;HEY!&quot; the Gnome shouts, spinning his chair around. &quot;That&#39;s my private spreadsheet! Get away from there!&quot;
 
-    [[He’s coming for you!-&gt;Hub: Attack]]
+    [[He&#39;s coming for you!-&gt;Hub: Target Selection]]
 ]</tw-passagedata><tw-passagedata pid="124" name="Monster Turn: Gnome Attack" tags="" position="500,1100" size="100,100">### THE GNOMES FIRE BACK!
 
 The Gnomes line up their clipboards and unleash a volley of office supplies! &quot;FILE THIS!&quot; they scream in unison.
@@ -3703,7 +3772,7 @@ The Gnomes line up their clipboards and unleash a volley of office supplies! &qu
 
 (if: $CurrentHP &gt; 0)[
     [[Your Turn!-&gt;Player Turn: Gate Options]]
-]</tw-passagedata><tw-passagedata pid="125" name="Monster Turn: The Robot Charge" tags="" position="925,550" size="100,100">### THE ENEMIES ARE ATTACKING!
+]</tw-passagedata><tw-passagedata pid="125" name="Monster Turn: The Robot Charge" tags="" position="950,550" size="100,100">### THE ENEMIES ARE ATTACKING!
 
 The wind screams in your ears as the two metal reindeer clank toward you, their mechanical hooves carving sparks out of the sleigh&#39;s floor. Santa is screaming something about &quot;Insurance Deductibles&quot; while he swerves.
 
@@ -3802,7 +3871,7 @@ The wind howls at 100 miles per hour, carrying the scent of ozone and burnt snic
 
 &quot;Alright, $PlayerName! Brace yourself! Here come the Robo-Rudys!&quot;
 
-[[ACT 1: THE SLEIGH-FAST AND SLEIGH-FURIOUS-&gt;Combat Start - Initiative]]</tw-passagedata><tw-passagedata pid="127" name="Player Action: Flee" tags="" position="1112.5,800" size="100,100">&quot;YOU&#39;RE LEAVING ME?!&quot; Santa shrieks, his beard flapping in the wind like a giant white flag. &quot;I haven&#39;t even given you your participation trophy yet!&quot;
+[[ACT 1: THE SLEIGH-FAST AND SLEIGH-FURIOUS-&gt;Combat Start - Initiative]]</tw-passagedata><tw-passagedata pid="127" name="Player Action: Flee" tags="" position="1125,800" size="100,100">&quot;YOU&#39;RE LEAVING ME?!&quot; Santa shrieks, his beard flapping in the wind like a giant white flag. &quot;I haven&#39;t even given you your participation trophy yet!&quot;
 
 You eye a giant sack of &quot;Super-Soaker 9000s&quot; and prepare to dive.
 
@@ -3831,10 +3900,11 @@ You eye a giant sack of &quot;Super-Soaker 9000s&quot; and prepare to dive.
 &quot;Faster! Chew faster!&quot; Santa yells while dodging a heat-seeking fruitcake.
 
 {
-  (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERED HP &lt;&lt;&quot;)[
-    (set: $CurrentHP to (number: (prompt: &quot;Enter your HP total recovered:&quot;, (str: $CurrentHP))))
-    
+   (link: &quot;&gt;&gt; CLICK HERE TO ENTER YOUR RECOVERED HP &lt;&lt;&quot;)[
+    (set: $HealHP to (number: (prompt: &quot;Enter your Total RECOVERD HP:&quot;, &quot;1&quot;)))
+    (set: $CurrentHP to $CurrentHP + $HealHP)
     (if: $CurrentHP &gt; $MaxHP)[(set: $CurrentHP to $MaxHP)]
+
     
     (goto: &quot;Monster Turn: The Robot Charge&quot;)
   ]
@@ -4147,7 +4217,7 @@ Santa props himself against a shelf of ancient gift tags. &quot;Rest up. We&#39;
 * [[Try to sleep (Stealth DC 10)-&gt;Rest: Storage Attempt]]
 * [[Just catch your breath and go-&gt;Exit Archives: Choose Descent]]</tw-passagedata><tw-passagedata pid="140" name="Set Target 1" tags="" position="1175,675" size="100,100">(set: $Target to 1)(set: $TargetName to $M1_Name)
 (goto: &quot;Player Attack: Roll Input&quot;)</tw-passagedata><tw-passagedata pid="141" name="Set Target 2" tags="" position="1300,675" size="100,100">(set: $Target to 2)(set: $TargetName to $M2_Name)
-(goto: &quot;Player Attack: Roll Input&quot;)</tw-passagedata><tw-passagedata pid="142" name="Sleigh: Killing Blow" tags="" position="925,675" size="100,100">### FALLING FROM GRACE
+(goto: &quot;Player Attack: Roll Input&quot;)</tw-passagedata><tw-passagedata pid="142" name="Sleigh: Killing Blow" tags="" position="800,675" size="100,100">### FALLING FROM GRACE
 
 The combined assault of the Robo-Rudys overwhelms you. A laser blast catches you in the shoulder, spinning you around just in time for a titanium hoof to connect with your chest.
 
@@ -4298,7 +4368,229 @@ v12 Contains:
 ✅ 4 Rest Opportunities - 2 Stealth Rests + 2 Pete&#39;s Treats
 ✅ All previous fixes - Phase 1 &amp; 2 combat improvements, Heal/Flee options, killing blows, etc.
 
-I added a gift at the end, updated the christmas magic displays and some other coding issues.</tw-passagedata><tw-passagedata pid="147" name="Inventory: Combat Use" tags="" position="437.5,4675" size="100,100"></tw-passagedata><tw-passagedata pid="148" name="This Passage" tags="" position="200,1850" size="100,100"></tw-passagedata></tw-storydata>
+I added a gift at the end, updated the christmas magic displays and some other coding issues.</tw-passagedata><tw-passagedata pid="147" name="Inventory: Combat Use" tags="" position="437.5,4675" size="100,100"></tw-passagedata><tw-passagedata pid="148" name="Hub: Player Attack" tags="" position="825,1825" size="100,100">:: Hub: Player Attack
+### ATTACKING THE GNOME
+
+{
+  (if: $Target is &quot;HG&quot;)[
+      (set: $TargetName to $HG_Name)
+      (set: $TargetAC to $HG_AC)
+  ](else:)[
+      (set: $TargetName to &quot;Backup Guard&quot;)
+      (set: $TargetAC to 13)
+  ]
+}
+
+You lunge forward to strike **$TargetName**!
+
+{
+  (set: $PromptText to &quot;Roll Attack vs AC &quot; + (str: $TargetAC))
+  (if: $RollMod is &quot;Advantage&quot;)[
+      (set: $PromptText to it + &quot; (ADVANTAGE - roll 2d20, take HIGHER)&quot;)
+  ]
+  (else-if: $RollMod is &quot;Disadvantage&quot;)[
+      (set: $PromptText to it + &quot; (DISADVANTAGE - roll 2d20, take LOWER)&quot;)
+  ]
+  (else:)[
+      (set: $PromptText to it + &quot; (Normal Roll - 1d20)&quot;)
+  ]
+  (set: $AtkRoll to (number: (prompt: $PromptText + &quot;:&quot;, &quot;0&quot;)))
+  (set: $RollMod to 0)
+  (set: $FinalAtk to $AtkRoll + $ChristmasMagic)
+}
+
+(if: $ChristmasMagic &gt; 0)[
+    (text-colour: &quot;gold&quot;)[✨ **MAGIC AIM!** Roll $AtkRoll + $ChristmasMagic = $FinalAtk]
+]
+
+(if: $FinalAtk &gt;= $TargetAC)[
+    ### HIT!
+    {
+        (set: $RawDmg to (number: (prompt: &quot;HIT! Enter damage (minimum 1):&quot;, &quot;1&quot;)))
+        (if: $RawDmg &lt; 1)[(set: $RawDmg to 1)]
+        
+        (set: $MagicDmgBonus to $ChristmasMagic * 2)
+        (set: $FinalDmg to $RawDmg + $MagicDmgBonus)
+        
+        (if: $Target is &quot;HG&quot;)[
+            (set: $HG_HP to $HG_HP - $FinalDmg)
+        ](else:)[
+            (set: $HG2_HP to $HG2_HP - $FinalDmg)
+        ]
+    }
+
+    (if: $ChristmasMagic &gt; 0)[
+        (text-colour: &quot;gold&quot;)[✨ **MAGIC SMASH!** +$MagicDmgBonus Bonus Damage!]
+    ]
+
+    (text-colour: &quot;orange&quot;)[**WHACK!**]
+    **You deal $FinalDmg damage to $TargetName!**
+](else:)[
+    (text-colour: &quot;cyan&quot;)[**MISS!**]
+    Your attack bounces off their clipboard!
+]
+
+&lt;br&gt;
+**Head Gnome:** (if: $HG_HP &lt;= 0)[0](else:)[$HG_HP] / $HG_MaxHP HP
+(if: $HG_Backup is true)[**Backup Guard:** (if: $HG2_HP &lt;= 0)[0](else:)[$HG2_HP] / 15 HP]
+**Your Status:** $CurrentHP / $MaxHP HP
+
+(if: $HG_HP &lt;= 0 and ($HG_Backup is false or $HG2_HP &lt;= 0))[
+    [[VICTORY!-&gt;Act 2: Hub Success]]
+](else:)[
+    [[End Turn-&gt;Hub: Gnome Counter]]
+]</tw-passagedata><tw-passagedata pid="149" name="Credits" tags="" position="1025,4450" size="100,100">(align: &quot;=&gt;&lt;=&quot;)[
+    # CREDITS
+
+    ### Story &amp; Design
+    Mr. Bergner
+    Mr. Wilson
+    Claude
+
+    ### Writing
+    Mr. Wilson
+    Mr. Bergner
+    Claude
+    
+
+    ### Special Thanks
+    Nico
+    The Twine Community
+    Mrs. Lee for putting up with our crazy ideas
+    Our families
+    
+
+    ***
+
+    ### Music / Assets
+    (If you used any free assets, list them here)
+    &quot;Song Name&quot; by Artist
+    &quot;Image Name&quot; by Artist
+
+    &lt;br&gt;&lt;br&gt;
+    **Thanks for playing!**
+]
+
+&lt;br&gt;&lt;br&gt;
+(link: &quot;Return to Title Screen&quot;)[(reload:)]</tw-passagedata><tw-passagedata pid="150" name="Factory: Player Attack" tags="" position="750,2525" size="100,100">### ATTACKING THE MACHINES
+
+{
+  (if: $Target is 1)[
+      (set: $TargetName to $M1_Name)
+  ](else:)[
+      (set: $TargetName to $M2_Name)
+  ]
+}
+
+You dodge between conveyor belts and strike at **$TargetName**!
+
+{
+  (set: $AtkRoll to (number: (prompt: &quot;Roll Attack vs AC 13:&quot;, &quot;0&quot;)))
+  (set: $FinalAtk to $AtkRoll + $ChristmasMagic)
+}
+
+(if: $ChristmasMagic &gt; 0)[
+    (text-colour: &quot;gold&quot;)[✨ **MAGIC AIM!** Roll $AtkRoll + $ChristmasMagic = $FinalAtk]
+]
+
+(if: $FinalAtk &gt;= 13)[
+    ### HIT!
+    {
+        (set: $RawDmg to (number: (prompt: &quot;HIT! Enter damage (minimum 1):&quot;, &quot;1&quot;)))
+        (if: $RawDmg &lt; 1)[(set: $RawDmg to 1)]
+        
+        (set: $MagicDmgBonus to $ChristmasMagic * 2)
+        (set: $FinalDmg to $RawDmg + $MagicDmgBonus)
+        
+        (if: $Target is 1)[
+            (set: $M1_HP to $M1_HP - $FinalDmg)
+        ](else:)[
+            (set: $M2_HP to $M2_HP - $FinalDmg)
+        ]
+    }
+
+    (if: $ChristmasMagic &gt; 0)[
+        (text-colour: &quot;gold&quot;)[✨ **MAGIC SMASH!** +$MagicDmgBonus Bonus Damage!]
+    ]
+
+    (text-colour: &quot;orange&quot;)[**CRUNCH!**]
+    **You deal $FinalDmg damage to $TargetName!**
+](else:)[
+    (text-colour: &quot;cyan&quot;)[**MISS!**]
+    Your weapon clangs harmlessly off their metal plating!
+]
+
+&lt;br&gt;
+**Overseer Drone:** (if: $M1_HP &lt;= 0)[0](else:)[$M1_HP] / 12 HP
+**Efficiency Guard:** (if: $M2_HP &lt;= 0)[0](else:)[$M2_HP] / 15 HP
+**Your Status:** $CurrentHP / $MaxHP HP
+
+(if: $M1_HP &lt;= 0 and $M2_HP &lt;= 0)[
+    [[VICTORY!-&gt;Act 4: Hall of Records]]
+](else:)[
+    [[End Turn-&gt;Factory: Enemy Turn]]
+]</tw-passagedata><tw-passagedata pid="151" name="Testing Startup" tags="" position="225,650" size="100,100">(set: $PlayerName to &quot;Adventurer&quot;)(set: $MaxHP to 30)(set: $CurrentHP to $MaxHP)(set: $PlayerAC to 15)(set: $M1_Name to &quot;Robo-Rudy 1&quot;)(set: $M1_HP to 8)(set: $M1_Atk to 2)(set: $M2_Name to &quot;Robo-Rudy 2&quot;)(set: $M2_HP to 8)(set: $M2_Atk to 2)(set: $TargetAC to 13)(set: $HideBonus to 0)(set: $AlertLevel to 0)(set: $BossWeakness to false)(set: $HasTraitorLetter to false)(set: $RobotInitMod to 2)(set: $HubDifficulty to &quot;Easy&quot;)(set: $BossAC to 16)(set: $DroneAC to 13)(set: $BossStunned to false)(set: $GnomeVanguard to false)(set: $UsedVanguardBonus to false)(set: $SantaInspiration to false)(set: $ServiceTunnel to false)(set: $HG_HP to 15)(set: $HG_RoundCount to 0)(set: $HG_Backup to false)(set: $HG2_HP to 0)(set: $M3_HP to 0)(set: $DeceptionBonus to 0)(set: $SearchedBlueprints to false)(set: $SearchedFiles to false)(set: $SearchedLogs to false)(set: $ArchiveSearches to 0)(set: $ResolveBonus to 0)(set: $ElfJoined to true)(set: $ChristmasMagic to 1)(set: $BasePlayerAC to 15)(set: $RollMod to &quot;Advantage&quot;)
+
+
+[[Begin the Adventure-&gt;Act 2: Security Hub]]
+[[Begin the Factory-&gt;Act 3: Factory: Target Selection]]
+[[Begin the Breakroom-&gt;Act 3: Break Room Chase]]
+[[Begin the Records-&gt;Act 4: Hall of Records]]
+[[Begin the Core-&gt;Act 6: The Spirit Core]]
+[[Begin Grimes-&gt;Act 7: The Final Battle]]
+[[Begin Cafeteria-&gt;Act 5: Cafeteria Fight]] 
+[[Begin Trash-&gt;Act 5: Trash Disposal]] 
+[[Begin Steam-&gt;Act 5: Steam Pipes]] 
+</tw-passagedata><tw-passagedata pid="152" name="Hub: Flee" tags="" position="500,1925" size="100,100">### EMERGENCY EXIT
+
+You spot a vent grate in the corner of the room—your escape route! You sprint toward it while the gnomes are distracted by their monitors.
+
+(set: $RawRoll to (number: (prompt: &quot;Roll Dexterity (Acrobatics/Stealth) DC 15 to escape:&quot;, &quot;0&quot;)))
+(set: $FleeRoll to $RawRoll)
+
+(if: $ChristmasMagic &gt; 0)[
+    (set: $FleeRoll to $RawRoll + $ChristmasMagic)
+    (text-colour:&quot;gold&quot;)[✨ **CHRISTMAS MAGIC!** Your roll of $RawRoll gets a +$ChristmasMagic bonus!
+    **Total:** $FleeRoll]
+](else:)[
+    You rolled a **$FleeRoll**.
+]
+
+(if: $FleeRoll &gt;= 15)[
+    ### **GHOST IN THE SYSTEM!**
+    
+    You vault over a desk, slide across the polished floor on a conveniently placed mousepad, and dive through the vent grate headfirst! The Head Gnome spins his chair around just in time to see your boots disappear into the darkness.
+    
+    &quot;GET BACK HERE!&quot; he screams, but you&#39;re already crawling through the ducts toward the main assembly wing.
+    
+    From behind you, you hear Pete&#39;s muffled voice: &quot;THAT WAS AWESOME! Wait for me! My legs are shorter!&quot;
+    
+    You&#39;ve escaped the Security Hub, but the gnomes know you&#39;re in the building now.
+    
+    (set: $AlertLevel to it + 1)
+    (text-colour:&quot;yellow&quot;)[**Alert Level increased!** The Security Hub has broadcast your presence!]
+    
+    **Current HP:** $CurrentHP / $MaxHP
+    
+    [[Emerge in the Assembly Wing-&gt;Act 2: Hub Success]]
+](else:)[
+    ### **CAUGHT!**
+    
+    You make a break for the vent, but your foot catches on a power cable! You stumble and crash into a filing cabinet with a tremendous **CRASH!**
+    
+    &quot;Going somewhere?&quot; The Head Gnome leaps out of his chair, brandishing his candy-cane letter opener. &quot;Nobody leaves the Security Hub without filing Form 18-D: Unauthorized Exit Request!&quot;
+&lt;br&gt;
+(text-colour: &quot;cyan&quot;)[**Peppermint Pete**] pops up from behind the overturned cabinet, holding a handful of crumpled papers.
+
+&quot;I FOUND IT! Is it this one?!&quot; he screams, waving a random spreadsheet. &quot;Wait, no, this is a recipe for &#39;Tuna-Flavored Coal&#39;. BUT I CAN FILL OUT THE FORM! I have a crayon! DOES ANYONE HAVE A CRAYON?!&quot;
+
+    (set: $AlertLevel to it + 1)
+    (text-colour:&quot;yellow&quot;)[**Alert Level increased!** Your failed escape attempt was very loud!]
+    
+    **Current HP:** $CurrentHP / $MaxHP
+    
+    [[The Gnome attacks!-&gt;Hub: Gnome Counter]]
+]</tw-passagedata><tw-passagedata pid="153" name="Untitled Passage 1" tags="" position="675,4600" size="100,100"></tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
  * https://github.com/paulmillr/es6-shim
